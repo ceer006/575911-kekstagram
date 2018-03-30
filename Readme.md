@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Роман Макаров](https://up.htmlacademy.ru/javascript/13/user/575911).
-* Наставник: `Неизвестно`.
+* Наставник: `Алексей Хапов`.
 
 ---
 
