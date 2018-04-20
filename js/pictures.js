@@ -18,8 +18,6 @@ var PHOTO_DESCRIPTION = ['Тестим новую камеру!',
 
 var photos = [];
 
-var userComents = [];
-
 var bigPicture = document.querySelector('.big-picture');
 
 var commentCount = document.querySelector('.social__comment-count');
@@ -41,13 +39,14 @@ var getRandom = function (min, max) {
 var QUANTITY_COMENTS = getRandom(1, 10);
 
 var getArrayComents = function () {
+  var userComents = [];
   for (var i = 0; i < QUANTITY_COMENTS; i++) {
     userComents.push(PHOTO_COMENTS[getRandom(0, PHOTO_COMENTS.length)]);
   }
   return userComents;
 };
 
-var getPhotoDescription = function () {
+var getPhotoDescription = function (i) {
   return {
     url: 'photos/' + i + '.jpg',
     likes: getRandom(15, 200),
@@ -58,7 +57,7 @@ var getPhotoDescription = function () {
 
 var getPhotoData = function () {
   for (var i = 1; i <= QUANTITY_PHOTO; i++) {
-    photos.push(getPhotoDescription());
+    photos.push(getPhotoDescription(i));
   }
   return photos;
 };
@@ -92,6 +91,6 @@ document.querySelector('.likes-count').textContent = photos[0].likes;
 document.querySelector('.comments-count').textContent = photos[0].coments.length;
 
 newSocialComent.querySelector('.social__picture').src = 'img/avatar-' + getRandom(1, 7) + '.svg';
-newSocialComent.querySelector('p').textContent = userComents.length;
+newSocialComent.querySelector('p').textContent = photos[0].coments[0];
 
 document.querySelector('.social__comments').appendChild(newSocialComent);
