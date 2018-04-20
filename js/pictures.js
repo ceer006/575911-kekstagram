@@ -18,6 +18,8 @@ var PHOTO_DESCRIPTION = ['Тестим новую камеру!',
 
 var photos = [];
 
+var userComents = [];
+
 var bigPicture = document.querySelector('.big-picture');
 
 var commentCount = document.querySelector('.social__comment-count');
@@ -28,18 +30,35 @@ var otherUserPhoto = document.querySelector('.pictures');
 
 var pictureTemplate = document.querySelector('#picture').content;
 
+var socialComent = document.querySelector('.social__comment--text');
+
+var newSocialComent = socialComent.cloneNode(true);
+
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
+var QUANTITY_COMENTS = getRandom(1, 10);
+
+var getArrayComents = function () {
+  for (var i = 0; i < QUANTITY_COMENTS; i++) {
+    userComents.push(PHOTO_COMENTS[getRandom(0, PHOTO_COMENTS.length)]);
+  }
+  return userComents;
+};
+
+var getPhotoDescription = function () {
+  return {
+    url: 'photos/' + i + '.jpg',
+    likes: getRandom(15, 200),
+    coments: getArrayComents(),
+    description: PHOTO_DESCRIPTION[getRandom(0, PHOTO_DESCRIPTION.length)]
+  };
+};
+
 var getPhotoData = function () {
   for (var i = 1; i <= QUANTITY_PHOTO; i++) {
-    photos.push({
-      url: 'photos/' + i + '.jpg',
-      likes: getRandom(15, 200),
-      coments: PHOTO_COMENTS[getRandom(0, PHOTO_COMENTS.length)],
-      description: PHOTO_DESCRIPTION[getRandom(0, PHOTO_DESCRIPTION.length)]
-    });
+    photos.push(getPhotoDescription());
   }
   return photos;
 };
@@ -68,14 +87,11 @@ commentCount.classList.add('visually-hidden');
 
 commentLoadmore.classList.add('visually-hidden');
 
-var getBigPhoto = function (photo) {
-  var photoElement = pictureTemplate.cloneNode(true);
+document.querySelector('.big-picture__img').querySelector('img').src = photos[0].url;
+document.querySelector('.likes-count').textContent = photos[0].likes;
+document.querySelector('.comments-count').textContent = photos[0].coments.length;
 
-  photoElement.querySelector('.big-picture__img').src = photo[0].url;
-  photoElement.querySelector('.likes-count').textContent = photo[0].likes;
-  photoElement.querySelector('.comments-count').textContent = photo[0].coments;
+newSocialComent.querySelector('.social__picture').src = 'img/avatar-' + getRandom(1, 7) + '.svg';
+newSocialComent.querySelector('p').textContent = userComents.length;
 
-  return photoElement;
-};
-
-getBigPhoto(photos);
+document.querySelector('.social__comments').appendChild(newSocialComent);
