@@ -24,11 +24,13 @@ var commentCount = document.querySelector('.social__comment-count');
 
 var commentLoadmore = document.querySelector('.social__comment-loadmore');
 
+var removeComents = document.querySelector('.social__comments');
+
 var otherUserPhoto = document.querySelector('.pictures');
 
 var pictureTemplate = document.querySelector('#picture').content;
 
-var socialComent = document.querySelector('.social__comment--text');
+var socialComent = document.querySelector('.social__comment');
 
 var newSocialComent = socialComent.cloneNode(true);
 
@@ -69,7 +71,7 @@ var renderPhoto = function (photo) {
 
   photoElement.querySelector('.picture__img').src = photo.url;
   photoElement.querySelector('.picture__stat--likes').textContent = photo.likes;
-  photoElement.querySelector('.picture__stat--comments').textContent = photo.coments;
+  photoElement.querySelector('.picture__stat--comments').textContent = photo.coments.length;
 
   return photoElement;
 };
@@ -80,17 +82,31 @@ for (var i = 0; i < photos.length; i++) {
 }
 otherUserPhoto.appendChild(fragment);
 
-bigPicture.classList.remove('hidden');
+while (removeComents.firstChild) {
+  removeComents.removeChild(removeComents.firstChild);
+}
+
+var showBigPhoto = function (photo) {
+  bigPicture.classList.remove('hidden');
+
+  document.querySelector('.big-picture__img').querySelector('img').src = photo.url;
+  document.querySelector('.likes-count').textContent = photo.likes;
+  document.querySelector('.comments-count').textContent = photo.coments.length;
+};
+
+showBigPhoto(photos[0]);
+
+var getUsersComents = function () {
+  newSocialComent.querySelector('.social__picture').src = 'img/avatar-' + getRandom(1, 7) + '.svg';
+  newSocialComent.querySelector('p').textContent = photos[0].coments[0];
+
+  document.querySelector('.social__comments').appendChild(newSocialComent);
+};
+
+for (i = 1; i < 5; i++) {
+  getUsersComents();
+}
 
 commentCount.classList.add('visually-hidden');
 
 commentLoadmore.classList.add('visually-hidden');
-
-document.querySelector('.big-picture__img').querySelector('img').src = photos[0].url;
-document.querySelector('.likes-count').textContent = photos[0].likes;
-document.querySelector('.comments-count').textContent = photos[0].coments.length;
-
-newSocialComent.querySelector('.social__picture').src = 'img/avatar-' + getRandom(1, 7) + '.svg';
-newSocialComent.querySelector('p').textContent = photos[0].coments[0];
-
-document.querySelector('.social__comments').appendChild(newSocialComent);
