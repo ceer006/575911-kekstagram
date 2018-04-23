@@ -32,8 +32,6 @@ var pictureTemplate = document.querySelector('#picture').content;
 
 var socialComent = document.querySelector('.social__comment');
 
-var newSocialComent = socialComent.cloneNode(true);
-
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
@@ -76,6 +74,29 @@ var renderPhoto = function (photo) {
   return photoElement;
 };
 
+var showBigPhoto = function (photo) {
+  bigPicture.classList.remove('hidden');
+
+  document.querySelector('.big-picture__img').querySelector('img').src = photo.url;
+  document.querySelector('.likes-count').textContent = photo.likes;
+  document.querySelector('.comments-count').textContent = photo.coments.length;
+};
+
+var getUsersComents = function () {
+  newSocialComent.querySelector('.social__picture').src = 'img/avatar-' + getRandom(1, 7) + '.svg';
+  newSocialComent.querySelector('p').textContent = photos[0].coments[i];
+
+  document.querySelector('.social__comments').appendChild(newSocialComent);
+};
+
+var showPhotoList = function (photo) {
+  var photoList = [];
+  for (i = 0; i < photo.length; i++) {
+    photoList[i] = photo[i].url;
+  }
+  return photoList;
+};
+
 var fragment = document.createDocumentFragment();
 for (var i = 0; i < photos.length; i++) {
   fragment.appendChild(renderPhoto(photos[i]));
@@ -86,24 +107,10 @@ while (removeComents.firstChild) {
   removeComents.removeChild(removeComents.firstChild);
 }
 
-var showBigPhoto = function (photo) {
-  bigPicture.classList.remove('hidden');
-
-  document.querySelector('.big-picture__img').querySelector('img').src = photo.url;
-  document.querySelector('.likes-count').textContent = photo.likes;
-  document.querySelector('.comments-count').textContent = photo.coments.length;
-};
-
 showBigPhoto(photos[0]);
 
-var getUsersComents = function () {
-  newSocialComent.querySelector('.social__picture').src = 'img/avatar-' + getRandom(1, 7) + '.svg';
-  newSocialComent.querySelector('p').textContent = photos[0].coments[0];
-
-  document.querySelector('.social__comments').appendChild(newSocialComent);
-};
-
-for (i = 1; i < 5; i++) {
+for (i = 1; i < photos[0].coments.length; i++) {
+  var newSocialComent = socialComent.cloneNode(true);
   getUsersComents();
 }
 
