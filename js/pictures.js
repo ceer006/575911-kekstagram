@@ -92,36 +92,29 @@ var getUsersComents = function (coment) {
   return newSocialComent;
 };
 
-// var showUsersComents = function (coments) {
-//   for (var i = 0; i < coments.length; i++) {
-//     getUsersComents(coments[i]);
-//   }
-// };
+var showPhotoList = function (photo) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < photo.length; i++) {
+    fragment.appendChild(renderPhoto(photo[i]));
+  }
+  otherUserPhoto.appendChild(fragment);
+};
 
-// var showPhotoList = function (photo) {
-//   var photoList = [];
-//   for (i = 0; i < photo.length; i++) {
-//     photoList[i] = photo[i].url;
-//   }
-//   return photoList;
-// };
-
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < photos.length; i++) {
-  fragment.appendChild(renderPhoto(photos[i]));
-}
-otherUserPhoto.appendChild(fragment);
+var showComentsList = function (coments) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < coments.length; i++) {
+    fragment.appendChild(getUsersComents(coments[i]));
+  }
+  removeComents.appendChild(fragment);
+};
 
 while (removeComents.firstChild) {
   removeComents.removeChild(removeComents.firstChild);
 }
 
-fragment = document.createDocumentFragment();
-for (i = 0; i < photos[0].coments.length; i++) {
-  fragment.appendChild(getUsersComents(photos[0].coments[i]));
-}
+showPhotoList(photos);
 
-removeComents.appendChild(fragment);
+showComentsList(photos[0].coments);
 
 showBigPhoto(photos[0]);
 
