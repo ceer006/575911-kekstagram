@@ -170,131 +170,13 @@ while (removeComents.firstChild) {
 }
 
 showPhotoList(photos);
-showComentsList(photos[0].coments);
 
-listPhoto[0].addEventListener('click', function () {
-  showBigPhoto(photos[0]);
-});
-
-listPhoto[1].addEventListener('click', function () {
-  showBigPhoto(photos[1]);
-  showComentsList(photos[1].coments);
-});
-
-listPhoto[2].addEventListener('click', function () {
-  showBigPhoto(photos[2]);
-  showComentsList(photos[2].coments);
-});
-
-listPhoto[3].addEventListener('click', function () {
-  showBigPhoto(photos[3]);
-  showComentsList(photos[3].coments);
-});
-
-listPhoto[4].addEventListener('click', function () {
-  showBigPhoto(photos[4]);
-  showComentsList(photos[4].coments);
-});
-
-listPhoto[5].addEventListener('click', function () {
-  showBigPhoto(photos[5]);
-  showComentsList(photos[5].coments);
-});
-
-listPhoto[6].addEventListener('click', function () {
-  showBigPhoto(photos[6]);
-  showComentsList(photos[6].coments);
-});
-
-listPhoto[7].addEventListener('click', function () {
-  showBigPhoto(photos[7]);
-  showComentsList(photos[7].coments);
-});
-
-listPhoto[8].addEventListener('click', function () {
-  showBigPhoto(photos[8]);
-  showComentsList(photos[8].coments);
-});
-
-listPhoto[9].addEventListener('click', function () {
-  showBigPhoto(photos[9]);
-  showComentsList(photos[9].coments);
-});
-
-listPhoto[10].addEventListener('click', function () {
-  showBigPhoto(photos[10]);
-  showComentsList(photos[10].coments);
-});
-
-listPhoto[11].addEventListener('click', function () {
-  showBigPhoto(photos[11]);
-  showComentsList(photos[11].coments);
-});
-
-listPhoto[12].addEventListener('click', function () {
-  showBigPhoto(photos[12]);
-  showComentsList(photos[12].coments);
-});
-
-listPhoto[13].addEventListener('click', function () {
-  showBigPhoto(photos[13]);
-  showComentsList(photos[13].coments);
-});
-
-listPhoto[14].addEventListener('click', function () {
-  showBigPhoto(photos[14]);
-  showComentsList(photos[14].coments);
-});
-
-listPhoto[15].addEventListener('click', function () {
-  showBigPhoto(photos[15]);
-  showComentsList(photos[15].coments);
-});
-
-listPhoto[16].addEventListener('click', function () {
-  showBigPhoto(photos[16]);
-  showComentsList(photos[16].coments);
-});
-
-listPhoto[17].addEventListener('click', function () {
-  showBigPhoto(photos[17]);
-  showComentsList(photos[17].coments);
-});
-
-listPhoto[18].addEventListener('click', function () {
-  showBigPhoto(photos[18]);
-  showComentsList(photos[18].coments);
-});
-
-listPhoto[19].addEventListener('click', function () {
-  showBigPhoto(photos[19]);
-  showComentsList(photos[19].coments);
-});
-
-listPhoto[20].addEventListener('click', function () {
-  showBigPhoto(photos[20]);
-  showComentsList(photos[20].coments);
-});
-
-listPhoto[21].addEventListener('click', function () {
-  showBigPhoto(photos[21]);
-  showComentsList(photos[21].coments);
-});
-
-listPhoto[22].addEventListener('click', function () {
-  showBigPhoto(photos[22]);
-  showComentsList(photos[22].coments);
-});
-
-listPhoto[23].addEventListener('click', function () {
-  showBigPhoto(photos[23]);
-  showComentsList(photos[23].coments);
-});
-
-listPhoto[24].addEventListener('click', function () {
-  showBigPhoto(photos[24]);
-  showComentsList(photos[24].coments);
-});
+for (var i = 0; i < listPhoto.length; i++) {
+  listPhoto[i].addEventListener('click', function () {
+    showBigPhoto(photos[i]);
+    showComentsList(photos[i].coments);
+  });
+}
 
 uploadFile.addEventListener('change', function () {
   openPopup();
