@@ -16,6 +16,10 @@ var PHOTO_DESCRIPTION = ['Тестим новую камеру!',
   'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
   'Вот это тачка!'];
 
+var ESC_KEYCODE = 27;
+
+var ENTER_KEYCODE = 13;
+
 var photos = [];
 
 var bigPicture = document.querySelector('.big-picture');
@@ -116,8 +120,118 @@ showPhotoList(photos);
 
 showComentsList(photos[0].coments);
 
-showBigPhoto(photos[0]);
+var listPhoto = document.querySelectorAll('.picture__link');
 
-commentCount.classList.add('visually-hidden');
+listPhoto[0].addEventListener('click', function () {
+  showBigPhoto(photos[0]);
+});
 
-commentLoadmore.classList.add('visually-hidden');
+var uploadFile = document.querySelector('#upload-file');
+
+var overlay = document.querySelector('.img-upload__overlay');
+
+var uploadClose = overlay.querySelector('.img-upload__cancel');
+
+var previewUploadImg = document.querySelector('.img-upload__preview');
+
+var imgUploadScale = document.querySelector('.img-upload__scale');
+
+var previewPhoto = previewUploadImg.querySelector('img');
+
+var originalPhoto = document.querySelector('#effect-none');
+
+var effectChrome = document.querySelector('#effect-chrome');
+
+var effectSepia = document.querySelector('#effect-sepia');
+
+var effectMarvin = document.querySelector('#effect-marvin');
+
+var effectPhobos = document.querySelector('#effect-phobos');
+
+var effectHeat = document.querySelector('#effect-heat');
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  overlay.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  overlay.classList.add('hidden');
+  uploadFile.value = '';
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+var removeClassPhoto = function () {
+  for (var i = 0; i < previewPhoto.classList.length; i++) {
+    previewPhoto.classList.remove(previewPhoto.classList[i]);
+  }
+};
+
+var openImgScale = function () {
+  imgUploadScale.classList.remove('hidden');
+};
+
+var closeImgScale = function () {
+  imgUploadScale.classList.add('hidden');
+};
+
+uploadFile.addEventListener('change', function () {
+  openPopup();
+});
+
+uploadFile.addEventListener('change', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openPopup();
+  }
+});
+
+uploadClose.addEventListener('click', function () {
+  closePopup();
+});
+
+uploadClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});
+
+originalPhoto.addEventListener('click', function () {
+  removeClassPhoto();
+  closeImgScale();
+});
+
+effectChrome.addEventListener('click', function () {
+  removeClassPhoto();
+  openImgScale();
+  previewPhoto.classList.add('effects__preview--chrome');
+});
+
+effectSepia.addEventListener('click', function () {
+  removeClassPhoto();
+  openImgScale();
+  previewPhoto.classList.add('effects__preview--septia');
+});
+
+effectMarvin.addEventListener('click', function () {
+  removeClassPhoto();
+  openImgScale();
+  previewPhoto.classList.add('effects__preview--marvin');
+});
+
+effectPhobos.addEventListener('click', function () {
+  removeClassPhoto();
+  openImgScale();
+  previewPhoto.classList.add('effects__preview--phobos');
+});
+
+effectHeat.addEventListener('click', function () {
+  removeClassPhoto();
+  openImgScale();
+  previewPhoto.classList.add('effects__preview--heat');
+});
