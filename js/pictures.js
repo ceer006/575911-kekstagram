@@ -42,6 +42,8 @@ var overlay = document.querySelector('.img-upload__overlay');
 
 var uploadClose = overlay.querySelector('.img-upload__cancel');
 
+var fullPhotoClose = document.querySelector('.big-picture__cancel');
+
 var previewUploadImg = document.querySelector('.img-upload__preview');
 
 var imgUploadScale = document.querySelector('.img-upload__scale');
@@ -144,6 +146,12 @@ var onPopupEscPress = function (evt) {
   }
 };
 
+var onFullPhotoEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeFullPhoto();
+  }
+};
+
 var openPopup = function () {
   overlay.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
@@ -153,6 +161,11 @@ var closePopup = function () {
   overlay.classList.add('hidden');
   uploadFile.value = '';
   document.removeEventListener('keydown', onPopupEscPress);
+};
+
+var closeFullPhoto = function () {
+  bigPicture.classList.add('hidden');
+  document.removeEventListener('keydown', onFullPhotoEscPress);
 };
 
 var removeClassPhoto = function () {
@@ -173,11 +186,16 @@ showPhotoList(photos);
 
 var listPhoto = document.querySelectorAll('.picture__link');
 
-for (var i = 0; i < listPhoto.length; i++) {
-  listPhoto[i].addEventListener('click', function () {
-    showBigPhoto(photos[i]);
-    showComentsList(photos[i].coments);
+var onListPhotoClick = function (index) {
+  listPhoto[index].addEventListener('click', function () {
+    showBigPhoto(photos[index]);
+    showComentsList(photos[index].coments);
   });
+  document.addEventListener('keydown', onFullPhotoEscPress);
+};
+
+for (var i = 0; i < listPhoto.length; i++) {
+  onListPhotoClick(i);
 }
 
 uploadFile.addEventListener('change', function () {
@@ -197,6 +215,16 @@ uploadClose.addEventListener('click', function () {
 uploadClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     closePopup();
+  }
+});
+
+fullPhotoClose.addEventListener('click', function () {
+  closeFullPhoto();
+});
+
+fullPhotoClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closeFullPhoto();
   }
 });
 
