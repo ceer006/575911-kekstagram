@@ -24,6 +24,8 @@ var photos = [];
 
 var bigPicture = document.querySelector('.big-picture');
 
+var bigPictureImg = bigPicture.querySelector('.big-picture__img');
+
 var removeComents = document.querySelector('.social__comments');
 
 var otherUserPhoto = document.querySelector('.pictures');
@@ -57,8 +59,6 @@ var effectMarvin = document.querySelector('#effect-marvin');
 var effectPhobos = document.querySelector('#effect-phobos');
 
 var effectHeat = document.querySelector('#effect-heat');
-
-var listPhoto = document.querySelectorAll('.picture__link');
 
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -101,14 +101,6 @@ var renderPhoto = function (photo) {
   return photoElement;
 };
 
-var showBigPhoto = function (photo) {
-  bigPicture.classList.remove('hidden');
-
-  document.querySelector('.big-picture__img').querySelector('img').src = photo.url;
-  document.querySelector('.likes-count').textContent = photo.likes;
-  document.querySelector('.comments-count').textContent = photo.coments.length;
-};
-
 var getUsersComents = function (coment) {
   newSocialComent = socialComent.cloneNode(true);
 
@@ -117,6 +109,10 @@ var getUsersComents = function (coment) {
 
   return newSocialComent;
 };
+
+while (removeComents.firstChild) {
+  removeComents.removeChild(removeComents.firstChild);
+}
 
 var showPhotoList = function (photo) {
   var fragment = document.createDocumentFragment();
@@ -132,6 +128,14 @@ var showComentsList = function (coments) {
     fragment.appendChild(getUsersComents(coments[i]));
   }
   removeComents.appendChild(fragment);
+};
+
+var showBigPhoto = function (photo) {
+  bigPicture.classList.remove('hidden');
+
+  bigPictureImg.querySelector('img').src = photo.url;
+  document.querySelector('.likes-count').textContent = photo.likes;
+  document.querySelector('.comments-count').textContent = photo.coments.length;
 };
 
 var onPopupEscPress = function (evt) {
@@ -165,11 +169,9 @@ var closeImgScale = function () {
   imgUploadScale.classList.add('hidden');
 };
 
-while (removeComents.firstChild) {
-  removeComents.removeChild(removeComents.firstChild);
-}
-
 showPhotoList(photos);
+
+var listPhoto = document.querySelectorAll('.picture__link');
 
 for (var i = 0; i < listPhoto.length; i++) {
   listPhoto[i].addEventListener('click', function () {
