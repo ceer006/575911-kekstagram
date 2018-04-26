@@ -52,17 +52,11 @@ var previewPhoto = previewUploadImg.querySelector('img');
 
 var originalPhoto = document.querySelector('#effect-none');
 
-var effectChrome = document.querySelector('#effect-chrome');
-
-var effectSepia = document.querySelector('#effect-sepia');
-
-var effectMarvin = document.querySelector('#effect-marvin');
-
-var effectPhobos = document.querySelector('#effect-phobos');
-
-var effectHeat = document.querySelector('#effect-heat');
-
 var inputHashtags = document.querySelector('.text__hashtags');
+
+var effectPreview = document.querySelectorAll('.effects__preview');
+
+var effectRadio = document.querySelectorAll('.effects__radio');
 
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -192,12 +186,24 @@ var onListPhotoClick = function (index) {
   listPhoto[index].addEventListener('click', function () {
     showBigPhoto(photos[index]);
     showComentsList(photos[index].coments);
+    document.addEventListener('keydown', onFullPhotoEscPress);
   });
-  document.addEventListener('keydown', onFullPhotoEscPress);
 };
 
 for (var i = 0; i < listPhoto.length; i++) {
   onListPhotoClick(i);
+}
+
+var onEffectPhotoClick = function (index) {
+  effectRadio[index].addEventListener('click', function () {
+    removeClassPhoto();
+    openImgScale();
+    previewPhoto.classList.add('effects__preview--' + effectRadio[index].value);
+  });
+};
+
+for (i = 1; i < effectPreview.length; i++) {
+  onEffectPhotoClick(i);
 }
 
 uploadFile.addEventListener('change', function () {
@@ -233,36 +239,6 @@ fullPhotoClose.addEventListener('keydown', function (evt) {
 originalPhoto.addEventListener('click', function () {
   removeClassPhoto();
   closeImgScale();
-});
-
-effectChrome.addEventListener('click', function () {
-  removeClassPhoto();
-  openImgScale();
-  previewPhoto.classList.add('effects__preview--chrome');
-});
-
-effectSepia.addEventListener('click', function () {
-  removeClassPhoto();
-  openImgScale();
-  previewPhoto.classList.add('effects__preview--septia');
-});
-
-effectMarvin.addEventListener('click', function () {
-  removeClassPhoto();
-  openImgScale();
-  previewPhoto.classList.add('effects__preview--marvin');
-});
-
-effectPhobos.addEventListener('click', function () {
-  removeClassPhoto();
-  openImgScale();
-  previewPhoto.classList.add('effects__preview--phobos');
-});
-
-effectHeat.addEventListener('click', function () {
-  removeClassPhoto();
-  openImgScale();
-  previewPhoto.classList.add('effects__preview--heat');
 });
 
 inputHashtags.addEventListener('keydown', function (evt) {
