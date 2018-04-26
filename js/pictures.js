@@ -62,6 +62,8 @@ var effectPhobos = document.querySelector('#effect-phobos');
 
 var effectHeat = document.querySelector('#effect-heat');
 
+var inputHashtags = document.querySelector('.text__hashtags');
+
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
@@ -261,4 +263,10 @@ effectHeat.addEventListener('click', function () {
   removeClassPhoto();
   openImgScale();
   previewPhoto.classList.add('effects__preview--heat');
+});
+
+inputHashtags.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    evt.stopPropagation();
+  }
 });
