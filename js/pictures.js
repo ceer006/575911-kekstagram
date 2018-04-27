@@ -2,6 +2,10 @@
 
 var QUANTITY_PHOTO = 25;
 
+var QUANTITY_HASTAGS = 5;
+
+var HASTAGS_LENGTH = 20;
+
 var PHOTO_COMENTS = ['Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -53,6 +57,8 @@ var previewPhoto = previewUploadImg.querySelector('img');
 var originalPhoto = document.querySelector('#effect-none');
 
 var inputHashtags = document.querySelector('.text__hashtags');
+
+var inputComent = document.querySelector('.text__description');
 
 var effectPreview = document.querySelectorAll('.effects__preview');
 
@@ -245,4 +251,44 @@ inputHashtags.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     evt.stopPropagation();
   }
+});
+
+inputComent.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    evt.stopPropagation();
+  }
+});
+
+var getQuantityHastags = function (array) {
+  if (array.length > QUANTITY_HASTAGS) {
+    inputHashtags.setCustomValidity('Максимум 5 хеш-тегов');
+  }
+};
+
+var getHastagLength = function (array, index) {
+  if (array[index].length > HASTAGS_LENGTH) {
+    inputHashtags.setCustomValidity('Длинна хеш-тега не должна превышать 20 символов');
+  }
+};
+
+var checkSumbolHastags = function (array, index) {
+  if (array[index] === '#') {
+    inputHashtags.setCustomValidity('Хеш-тег не может состоять только из символа #');
+  }
+};
+
+var getValidate = function () {
+  var hastags = inputHashtags.value;
+  var hastagsArr = hastags.split(' ');
+  getQuantityHastags(hastagsArr);
+  for (i = 0; i < hastagsArr.length; i++) {
+    getHastagLength(hastagsArr[i]);
+    checkSumbolHastags(hastagsArr[i]);
+  }
+};
+
+var formSubmit = document.querySelector('.img-upload__submit');
+
+formSubmit.addEventListener('click', function () {
+  getValidate();
 });
