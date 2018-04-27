@@ -265,25 +265,49 @@ var getQuantityHastags = function (array) {
   }
 };
 
-var getHastagLength = function (array, index) {
-  if (array[index].length > HASTAGS_LENGTH) {
+var getHastagLength = function (array) {
+  if (array.length > HASTAGS_LENGTH) {
     inputHashtags.setCustomValidity('Длинна хеш-тега не должна превышать 20 символов');
   }
 };
 
-var checkSumbolHastags = function (array, index) {
-  if (array[index] === '#') {
+var checkSymbolHastags = function (array) {
+  if (array === '#') {
     inputHashtags.setCustomValidity('Хеш-тег не может состоять только из символа #');
+  }
+};
+
+var getSameHastags = function (array) {
+  var col = 0;
+  for (i = 0; i < array.length; i++) {
+    for (var j = i + 1; j < array.length; j++) {
+      if (array[i] === array[j]) {
+        col++;
+      }
+    }
+  }
+  if (col) {
+    inputHashtags.setCustomValidity('Хеш-теги не должны повторяться');
   }
 };
 
 var getValidate = function () {
   var hastags = inputHashtags.value;
-  var hastagsArr = hastags.split(' ');
+
+  hastags = hastags.trim();
+
+  var hastagsArr = hastags.split(/[\s]+/);
+
+  for (i = 0; i < hastagsArr.length; i++) {
+    hastagsArr[i] = hastagsArr[i].toLowerCase();
+  }
+
   getQuantityHastags(hastagsArr);
+  getSameHastags(hastagsArr);
+
   for (i = 0; i < hastagsArr.length; i++) {
     getHastagLength(hastagsArr[i]);
-    checkSumbolHastags(hastagsArr[i]);
+    checkSymbolHastags(hastagsArr[i]);
   }
 };
 
