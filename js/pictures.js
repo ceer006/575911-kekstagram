@@ -291,6 +291,20 @@ var getSameHastags = function (array) {
   }
 };
 
+var checkSpaceHastags = function (array) {
+  var sumSumbolHastags = array.match(/#/g).length;
+  if (sumSumbolHastags > 1) {
+    inputHashtags.setCustomValidity('Хеш-теги должны быть разделены пробелом');
+  }
+};
+
+var findPositionSymbolHastag = function (array) {
+  var positionHastag = array.search(/#/g);
+  if (positionHastag > 0) {
+    inputHashtags.setCustomValidity('Хеш-тег должен начинаться с символа #');
+  }
+};
+
 var getValidate = function () {
   var hastags = inputHashtags.value;
 
@@ -308,6 +322,8 @@ var getValidate = function () {
   for (i = 0; i < hastagsArr.length; i++) {
     getHastagLength(hastagsArr[i]);
     checkSymbolHastags(hastagsArr[i]);
+    checkSpaceHastags(hastagsArr[i]);
+    findPositionSymbolHastag(hastagsArr[i]);
   }
 };
 
