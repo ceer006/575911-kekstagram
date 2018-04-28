@@ -2,9 +2,9 @@
 
 var QUANTITY_PHOTO = 25;
 
-var QUANTITY_HASTAGS = 5;
+var QUANTITY_HASHTAGS = 5;
 
-var HASTAGS_LENGTH = 20;
+var HASHTAGS_LENGTH = 20;
 
 var PHOTO_COMENTS = ['Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -63,6 +63,8 @@ var inputComent = document.querySelector('.text__description');
 var effectPreview = document.querySelectorAll('.effects__preview');
 
 var effectRadio = document.querySelectorAll('.effects__radio');
+
+var formSubmit = document.querySelector('.img-upload__submit');
 
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -196,6 +198,81 @@ var onListPhotoClick = function (index) {
   });
 };
 
+var getQuantityHashtags = function (array) {
+  if (array.length > QUANTITY_HASHTAGS) {
+    inputHashtags.setCustomValidity('Максимум 5 хеш-тегов');
+  }
+};
+
+var getHashtagLength = function (string) {
+  if (string.length > HASHTAGS_LENGTH) {
+    inputHashtags.setCustomValidity('Длинна хеш-тега не должна превышать 20 символов');
+  }
+};
+
+var checkSymbolHashtags = function (string) {
+  if (string === '#') {
+    inputHashtags.setCustomValidity('Хеш-тег не может состоять только из символа #');
+  }
+};
+
+var getSameHashtags = function (array) {
+  var hashtags = inputHashtags.value;
+  var hashtagIndex = hashtags.indexOf(array);
+  var count = 0;
+
+  while (hashtagIndex !== -1) {
+    if (hashtagIndex >= 0) {
+      count++;
+    }
+    hashtagIndex = hashtags.indexOf(array, hashtagIndex + 1);
+  }
+  if (count > 1) {
+    inputHashtags.setCustomValidity('Хеш-теги не должны повторяться');
+  }
+};
+
+var checkSpaceHashtags = function (string) {
+  var sumSumbolHashtags = string.match(/#/g);
+
+  if (sumSumbolHashtags === null) {
+    sumSumbolHashtags = 0;
+  } else {
+    sumSumbolHashtags = string.match(/#/g).length;
+  }
+
+  if (sumSumbolHashtags > 1) {
+    inputHashtags.setCustomValidity('Хеш-теги должны быть разделены пробелом');
+  }
+};
+
+var findPositionSymbolHashtag = function (string) {
+  var positionHashtag = string.search(/#/g);
+  if (positionHashtag > 0 || positionHashtag === -1) {
+    inputHashtags.setCustomValidity('Хеш-тег должен начинаться с символа #');
+  }
+};
+
+var getValidate = function () {
+  var hashtags = inputHashtags.value;
+
+  hashtags = hashtags.toLowerCase();
+
+  hashtags = hashtags.trim();
+
+  var hashtagsArr = hashtags.split(/[\s]+/);
+
+  getQuantityHashtags(hashtagsArr);
+
+  for (var i = 0; i < hashtagsArr.length; i++) {
+    getSameHashtags(hashtagsArr[i]);
+    getHashtagLength(hashtagsArr[i]);
+    checkSymbolHashtags(hashtagsArr[i]);
+    checkSpaceHashtags(hashtagsArr[i]);
+    findPositionSymbolHashtag(hashtagsArr[i]);
+  }
+};
+
 for (var i = 0; i < listPhoto.length; i++) {
   onListPhotoClick(i);
 }
@@ -259,76 +336,6 @@ inputComent.addEventListener('keydown', function (evt) {
   }
 });
 
-var getQuantityHastags = function (array) {
-  if (array.length > QUANTITY_HASTAGS) {
-    inputHashtags.setCustomValidity('Максимум 5 хеш-тегов');
-  }
-};
-
-var getHastagLength = function (array) {
-  if (array.length > HASTAGS_LENGTH) {
-    inputHashtags.setCustomValidity('Длинна хеш-тега не должна превышать 20 символов');
-  }
-};
-
-var checkSymbolHastags = function (array) {
-  if (array === '#') {
-    inputHashtags.setCustomValidity('Хеш-тег не может состоять только из символа #');
-  }
-};
-
-var getSameHastags = function (array) {
-  var col = 0;
-  for (i = 0; i < array.length; i++) {
-    for (var j = i + 1; j < array.length; j++) {
-      if (array[i] === array[j]) {
-        col++;
-      }
-    }
-  }
-  if (col) {
-    inputHashtags.setCustomValidity('Хеш-теги не должны повторяться');
-  }
-};
-
-var checkSpaceHastags = function (array) {
-  var sumSumbolHastags = array.match(/#/g).length;
-  if (sumSumbolHastags > 1) {
-    inputHashtags.setCustomValidity('Хеш-теги должны быть разделены пробелом');
-  }
-};
-
-var findPositionSymbolHastag = function (array) {
-  var positionHastag = array.search(/#/g);
-  if (positionHastag > 0) {
-    inputHashtags.setCustomValidity('Хеш-тег должен начинаться с символа #');
-  }
-};
-
-var getValidate = function () {
-  var hastags = inputHashtags.value;
-
-  hastags = hastags.trim();
-
-  var hastagsArr = hastags.split(/[\s]+/);
-
-  for (i = 0; i < hastagsArr.length; i++) {
-    hastagsArr[i] = hastagsArr[i].toLowerCase();
-  }
-
-  getQuantityHastags(hastagsArr);
-  getSameHastags(hastagsArr);
-
-  for (i = 0; i < hastagsArr.length; i++) {
-    getHastagLength(hastagsArr[i]);
-    checkSymbolHastags(hastagsArr[i]);
-    checkSpaceHastags(hastagsArr[i]);
-    findPositionSymbolHastag(hastagsArr[i]);
-  }
-};
-
-var formSubmit = document.querySelector('.img-upload__submit');
-
-formSubmit.addEventListener('click', function () {
+formSubmit.addEventListener('submit', function () {
   getValidate();
 });
