@@ -56,15 +56,15 @@ var previewPhoto = previewUploadImg.querySelector('img');
 
 var originalPhoto = document.querySelector('#effect-none');
 
-var inputHashtags = document.querySelector('.text__hashtags');
+var formSubmit = document.querySelector('.img-upload__form');
 
-var inputComent = document.querySelector('.text__description');
+var inputHashtags = formSubmit.querySelector('.text__hashtags');
 
-var effectPreview = document.querySelectorAll('.effects__preview');
+var inputComent = formSubmit.querySelector('.text__description');
 
-var effectRadio = document.querySelectorAll('.effects__radio');
+var effectPreview = formSubmit.querySelectorAll('.effects__preview');
 
-var formSubmit = document.querySelector('.img-upload__submit');
+var effectRadio = formSubmit.querySelectorAll('.effects__radio');
 
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -198,57 +198,43 @@ var onListPhotoClick = function (index) {
   });
 };
 
-var getQuantityHashtags = function (array) {
-  if (array.length > QUANTITY_HASHTAGS) {
+var getQuantityHashtags = function (hashTagArr) {
+  if (hashTagArr.length > QUANTITY_HASHTAGS) {
     inputHashtags.setCustomValidity('Максимум 5 хеш-тегов');
   }
 };
 
-var getHashtagLength = function (string) {
-  if (string.length > HASHTAGS_LENGTH) {
+var getHashtagLength = function (hashTag) {
+  if (hashTag.length > HASHTAGS_LENGTH) {
     inputHashtags.setCustomValidity('Длинна хеш-тега не должна превышать 20 символов');
   }
 };
 
-var checkSymbolHashtags = function (string) {
-  if (string === '#') {
+var checkSymbolHashtags = function (hashTag) {
+  if (hashTag === '#') {
     inputHashtags.setCustomValidity('Хеш-тег не может состоять только из символа #');
   }
 };
 
-var getSameHashtags = function (array) {
-  var hashtags = inputHashtags.value;
-  var hashtagIndex = hashtags.indexOf(array);
-  var count = 0;
-
-  while (hashtagIndex !== -1) {
-    if (hashtagIndex >= 0) {
-      count++;
-    }
-    hashtagIndex = hashtags.indexOf(array, hashtagIndex + 1);
-  }
-  if (count > 1) {
+var getSameHashtags = function (hashTagArr, hashTagArrElement, index) {
+  if (hashTagArr.indexOf(hashTagArrElement, index + 1) > 0) {
     inputHashtags.setCustomValidity('Хеш-теги не должны повторяться');
   }
 };
 
-var checkSpaceHashtags = function (string) {
-  var sumSumbolHashtags = string.match(/#/g);
+var checkSpaceHashtags = function (hashTag) {
+  var sumSumbolHashtags = hashTag.match(/#/g);
 
   if (sumSumbolHashtags === null) {
     sumSumbolHashtags = 0;
-  } else {
-    sumSumbolHashtags = string.match(/#/g).length;
-  }
-
-  if (sumSumbolHashtags > 1) {
+  } else if (sumSumbolHashtags.length > 1) {
     inputHashtags.setCustomValidity('Хеш-теги должны быть разделены пробелом');
   }
 };
 
-var findPositionSymbolHashtag = function (string) {
-  var positionHashtag = string.search(/#/g);
-  if (positionHashtag > 0 || positionHashtag === -1) {
+var findPositionSymbolHashtag = function (hashTag) {
+  var positionHashtag = hashTag.search(/#/g);
+  if (positionHashtag !== 0) {
     inputHashtags.setCustomValidity('Хеш-тег должен начинаться с символа #');
   }
 };
@@ -262,15 +248,15 @@ var getValidate = function () {
 
   var hashtagsArr = hashtags.split(/[\s]+/);
 
-  getQuantityHashtags(hashtagsArr);
-
   for (var i = 0; i < hashtagsArr.length; i++) {
-    getSameHashtags(hashtagsArr[i]);
+    getSameHashtags(hashtagsArr, hashtagsArr[i], i);
     getHashtagLength(hashtagsArr[i]);
     checkSymbolHashtags(hashtagsArr[i]);
     checkSpaceHashtags(hashtagsArr[i]);
     findPositionSymbolHashtag(hashtagsArr[i]);
   }
+
+  getQuantityHashtags(hashtagsArr);
 };
 
 for (var i = 0; i < listPhoto.length; i++) {
@@ -285,8 +271,8 @@ var onEffectPhotoClick = function (index) {
   });
 };
 
-for (i = 1; i < effectPreview.length; i++) {
-  onEffectPhotoClick(i);
+for (var j = 1; j < effectPreview.length; j++) {
+  onEffectPhotoClick(j);
 }
 
 uploadFile.addEventListener('change', function () {
