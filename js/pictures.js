@@ -66,6 +66,8 @@ var effectPreview = formSubmit.querySelectorAll('.effects__preview');
 
 var effectRadio = formSubmit.querySelectorAll('.effects__radio');
 
+var submitFormButton = formSubmit.querySelector('.img-upload__submit');
+
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
@@ -201,24 +203,36 @@ var onListPhotoClick = function (index) {
 var getQuantityHashtags = function (hashTagArr) {
   if (hashTagArr.length > QUANTITY_HASHTAGS) {
     inputHashtags.setCustomValidity('Максимум 5 хеш-тегов');
+    return false;
+  } else {
+    return true;
   }
 };
 
 var getHashtagLength = function (hashTag) {
   if (hashTag.length > HASHTAGS_LENGTH) {
     inputHashtags.setCustomValidity('Длинна хеш-тега не должна превышать 20 символов');
+    return false;
+  } else {
+    return true;
   }
 };
 
 var checkSymbolHashtags = function (hashTag) {
   if (hashTag === '#') {
     inputHashtags.setCustomValidity('Хеш-тег не может состоять только из символа #');
+    return false;
+  } else {
+    return true;
   }
 };
 
 var getSameHashtags = function (hashTagArr, hashTagArrElement, index) {
   if (hashTagArr.indexOf(hashTagArrElement, index + 1) > 0) {
     inputHashtags.setCustomValidity('Хеш-теги не должны повторяться');
+    return false;
+  } else {
+    return true;
   }
 };
 
@@ -227,8 +241,12 @@ var checkSpaceHashtags = function (hashTag) {
 
   if (sumSumbolHashtags === null) {
     sumSumbolHashtags = 0;
+    return true;
   } else if (sumSumbolHashtags.length > 1) {
     inputHashtags.setCustomValidity('Хеш-теги должны быть разделены пробелом');
+    return false;
+  } else {
+    return true;
   }
 };
 
@@ -236,6 +254,9 @@ var findPositionSymbolHashtag = function (hashTag) {
   var positionHashtag = hashTag.search(/#/g);
   if (positionHashtag !== 0) {
     inputHashtags.setCustomValidity('Хеш-тег должен начинаться с символа #');
+    return false;
+  } else {
+    return true;
   }
 };
 
@@ -246,17 +267,32 @@ var getValidate = function () {
 
   hashtags = hashtags.trim();
 
+  var hashTagValidityOk = [];
+
   var hashtagsArr = hashtags.split(/[\s]+/);
 
   for (var i = 0; i < hashtagsArr.length; i++) {
     getSameHashtags(hashtagsArr, hashtagsArr[i], i);
+    hashTagValidityOk.push(getSameHashtags(hashtagsArr, hashtagsArr[i], i));
     getHashtagLength(hashtagsArr[i]);
+    hashTagValidityOk.push(getHashtagLength(hashtagsArr[i]));
     checkSymbolHashtags(hashtagsArr[i]);
+    hashTagValidityOk.push(checkSymbolHashtags(hashtagsArr[i]));
     checkSpaceHashtags(hashtagsArr[i]);
+    hashTagValidityOk.push(checkSpaceHashtags(hashtagsArr[i]));
     findPositionSymbolHashtag(hashtagsArr[i]);
+    hashTagValidityOk.push(findPositionSymbolHashtag(hashtagsArr[i]));
   }
-
   getQuantityHashtags(hashtagsArr);
+  hashTagValidityOk.push(getQuantityHashtags(hashtagsArr));
+
+  if (hashTagValidityOk.indexOf(false) >= 0) {
+    inputHashtags.style.border = '2px solid red';
+    return;
+  } else {
+    inputHashtags.style.border = 'none';
+    inputHashtags.setCustomValidity('');
+  }
 };
 
 for (var i = 0; i < listPhoto.length; i++) {
@@ -322,6 +358,6 @@ inputComent.addEventListener('keydown', function (evt) {
   }
 });
 
-formSubmit.addEventListener('submit', function () {
+submitFormButton.addEventListener('click', function () {
   getValidate();
 });
