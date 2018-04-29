@@ -203,63 +203,55 @@ var onListPhotoClick = function (index) {
 };
 
 var getQuantityHashtags = function (hashTagArr) {
-  if (hashTagArr.length > QUANTITY_HASHTAGS) {
+  var isQuantityHashtagsValid = hashTagArr.length > QUANTITY_HASHTAGS;
+  if (isQuantityHashtagsValid) {
     inputHashtags.setCustomValidity('Максимум 5 хеш-тегов');
-    hashTagValidityOk.push(false);
-  } else {
-    hashTagValidityOk.push(true);
   }
+  hashTagValidityOk.push(isQuantityHashtagsValid);
 };
 
 var getHashtagLength = function (hashTag) {
-  if (hashTag.length > HASHTAGS_LENGTH) {
+  var isHashtagLengthValid = hashTag.length > HASHTAGS_LENGTH;
+  if (isHashtagLengthValid) {
     inputHashtags.setCustomValidity('Длинна хеш-тега не должна превышать 20 символов');
-    hashTagValidityOk.push(false);
-  } else {
-    hashTagValidityOk.push(true);
   }
+  hashTagValidityOk.push(isHashtagLengthValid);
 };
 
 var checkSymbolHashtags = function (hashTag) {
-  if (hashTag === '#') {
+  var isSymbolHashtagsValid = hashTag === '#';
+  if (isSymbolHashtagsValid) {
     inputHashtags.setCustomValidity('Хеш-тег не может состоять только из символа #');
-    hashTagValidityOk.push(false);
-  } else {
-    hashTagValidityOk.push(true);
   }
+  hashTagValidityOk.push(isSymbolHashtagsValid);
 };
 
 var getSameHashtags = function (hashTagArr, hashTagArrElement, index) {
-  if (hashTagArr.indexOf(hashTagArrElement, index + 1) > 0) {
+  var isSameHashtagsValid = hashTagArr.indexOf(hashTagArrElement, index + 1) > 0;
+  if (isSameHashtagsValid) {
     inputHashtags.setCustomValidity('Хеш-теги не должны повторяться');
-    hashTagValidityOk.push(false);
-  } else {
-    hashTagValidityOk.push(true);
   }
+  hashTagValidityOk.push(isSameHashtagsValid);
 };
 
 var checkSpaceHashtags = function (hashTag) {
   var sumSumbolHashtags = hashTag.match(/#/g);
-
   if (sumSumbolHashtags === null) {
     sumSumbolHashtags = 0;
-    hashTagValidityOk.push(true);
-  } else if (sumSumbolHashtags.length > 1) {
-    inputHashtags.setCustomValidity('Хеш-теги должны быть разделены пробелом');
-    hashTagValidityOk.push(false);
-  } else {
-    hashTagValidityOk.push(true);
   }
+  var isSpaceHashtagsValid = sumSumbolHashtags.length > 1;
+  if (isSpaceHashtagsValid) {
+    inputHashtags.setCustomValidity('Хеш-теги должны быть разделены пробелом');
+  }
+  hashTagValidityOk.push(isSpaceHashtagsValid);
 };
 
 var findPositionSymbolHashtag = function (hashTag) {
-  var positionHashtag = hashTag.search(/#/g);
-  if (positionHashtag !== 0) {
+  var isPositionSymbolHashtaValid = hashTag.search(/#/g) !== 0;
+  if (isPositionSymbolHashtaValid) {
     inputHashtags.setCustomValidity('Хеш-тег должен начинаться с символа #');
-    hashTagValidityOk.push(false);
-  } else {
-    hashTagValidityOk.push(true);
   }
+  hashTagValidityOk.push(isPositionSymbolHashtaValid);
 };
 
 var getValidate = function () {
@@ -272,7 +264,7 @@ var getValidate = function () {
   var hashtagsArr = hashtags.split(/[\s]+/);
 
   for (var i = 0; i < hashtagsArr.length; i++) {
-    if (hashTagValidityOk.indexOf(false) === -1) {
+    if (hashTagValidityOk.indexOf(true) === -1) {
       getSameHashtags(hashtagsArr, hashtagsArr[i], i);
       getHashtagLength(hashtagsArr[i]);
       checkSymbolHashtags(hashtagsArr[i]);
@@ -285,7 +277,7 @@ var getValidate = function () {
     }
   }
 
-  if (hashTagValidityOk.indexOf(false) === -1) {
+  if (hashTagValidityOk.indexOf(true) === -1) {
     inputHashtags.style.border = 'none';
     inputHashtags.setCustomValidity('');
   } else {
