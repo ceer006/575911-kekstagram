@@ -64,6 +64,8 @@ var previewUploadImgElement = document.querySelector('.img-upload__preview');
 
 var imgUploadScaleElement = document.querySelector('.img-upload__scale');
 
+var imgUploadScaleValueElement = imgUploadScaleElement.querySelector('.scale__value');
+
 var previewPhotoElement = previewUploadImgElement.querySelector('img');
 
 var originalPhotoElement = document.querySelector('#effect-none');
@@ -222,6 +224,8 @@ var onListPhotoClick = function (index) {
   listPhoto[index].addEventListener('click', function () {
     showBigPhoto(photos[index]);
     showComentsList(photos[index].coments);
+
+
     document.addEventListener('keydown', onFullPhotoEscPress);
   });
 };
@@ -336,6 +340,10 @@ var getEffectDepth = function () {
   return (scaleLevelElement.offsetWidth / scaleLineElement.offsetWidth).toFixed(2);
 };
 
+var getEffectDepthProcent = function () {
+  return (scaleLevelElement.offsetWidth / scaleLineElement.offsetWidth * 100).toFixed(0);
+};
+
 var refreshFilterDepth = function () {
   switch (previewPhotoElement.className) {
     case 'effects__preview--none':
@@ -370,6 +378,7 @@ var onEffectPhotoClick = function (index) {
     previewPhotoElement.classList.add('effects__preview--' + effectRadioElement[index].value);
     scalePinElement.style = 'left: ' + MAX_X + 'px;';
     scaleLevelElement.style = 'width: 100%';
+    imgUploadScaleValueElement.setAttribute('value', '100');
     refreshFilterDepth();
   });
 };
@@ -412,6 +421,8 @@ originalPhotoElement.addEventListener('click', function () {
   removeClassPhoto();
   closeImgScale();
   previewPhotoElement.removeAttribute('style');
+  imgUploadScaleValueElement.removeAttribute('value');
+
 });
 
 inputHashtagsElement.addEventListener('keydown', function (evt) {
@@ -463,6 +474,7 @@ scalePinElement.addEventListener('mousedown', function (evt) {
       scalePinElement.style.left = (scalePinElement.offsetLeft - shift.x) + 'px';
       scaleLevelElement.style.width = (scaleLevelElement.offsetWidth - shift.x) + 'px';
       refreshFilterDepth();
+      imgUploadScaleValueElement.setAttribute('value', '' + getEffectDepthProcent());
     }
   };
 
