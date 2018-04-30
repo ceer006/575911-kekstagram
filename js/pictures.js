@@ -10,6 +10,12 @@ var MIN_X = 0;
 
 var MAX_X = 453;
 
+var MIN_VALUE = 25;
+
+var MAX_VALUE = 100;
+
+var STEP = 25;
+
 var PHOTO_COMENTS = ['Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -63,6 +69,8 @@ var previewPhotoElement = previewUploadImgElement.querySelector('img');
 var originalPhotoElement = document.querySelector('#effect-none');
 
 var formSubmitElement = document.querySelector('.img-upload__form');
+
+var resizeControlElement = formSubmitElement.querySelector('.img-upload__resize');
 
 var resizeControlMinusElement = formSubmitElement.querySelector('.resize__control--minus');
 
@@ -301,6 +309,56 @@ var getValidate = function () {
   }
 };
 
+var onImgResize = function (scaleDown, scaleUp) {
+
+  var inputValue = parseInt(resizeControlValueElement.value, 10);
+
+  if (scaleDown) {
+    if (inputValue > MIN_VALUE) {
+      previewUploadImgElement.style.transform = 'scale(0.' + (inputValue - STEP) + ')';
+      resizeControlValueElement.value = inputValue - STEP + '%';
+    }
+  }
+  if (scaleUp) {
+    if (inputValue < MAX_VALUE) {
+      if (parseInt(resizeControlValueElement.value, 10) === MAX_VALUE - STEP) {
+        previewUploadImgElement.removeAttribute('style');
+        resizeControlValueElement.value = MAX_VALUE + '%';
+      } else {
+        previewUploadImgElement.style.transform = 'scale(0.' + (inputValue + STEP) + ')';
+        resizeControlValueElement.value = inputValue + STEP + '%';
+      }
+    }
+  }
+};
+
+var getEffectDepth = function () {
+  return (scaleLevelElement.offsetWidth / scaleLineElement.offsetWidth).toFixed(2);
+};
+
+var refreshFilterDepth = function () {
+  switch (previewPhotoElement.className) {
+    case 'effects__preview--none':
+      previewPhotoElement.removeAttribute('filter');
+      break;
+    case 'effects__preview--chrome':
+      previewPhotoElement.style = 'filter: grayscale(' + getEffectDepth() + ');';
+      break;
+    case 'effects__preview--sepia':
+      previewPhotoElement.style = 'filter: sepia(' + getEffectDepth() + ');';
+      break;
+    case 'effects__preview--marvin':
+      previewPhotoElement.style = 'filter: invert(' + getEffectDepth() * 100 + '%);';
+      break;
+    case 'effects__preview--phobos':
+      previewPhotoElement.style = 'filter: blur(' + getEffectDepth() * 3 + 'px);';
+      break;
+    case 'effects__preview--heat':
+      previewPhotoElement.style = 'filter: brightness(' + getEffectDepth() * 3 + ');';
+      break;
+  }
+};
+
 for (var i = 0; i < listPhoto.length; i++) {
   onListPhotoClick(i);
 }
@@ -310,6 +368,9 @@ var onEffectPhotoClick = function (index) {
     removeClassPhoto();
     openImgScale();
     previewPhotoElement.classList.add('effects__preview--' + effectRadioElement[index].value);
+    scalePinElement.style = 'left: ' + MAX_X + 'px;';
+    scaleLevelElement.style = 'width: 100%';
+    refreshFilterDepth();
   });
 };
 
@@ -350,6 +411,7 @@ fullPhotoCloseElement.addEventListener('keydown', function (evt) {
 originalPhotoElement.addEventListener('click', function () {
   removeClassPhoto();
   closeImgScale();
+  previewPhotoElement.removeAttribute('style');
 });
 
 inputHashtagsElement.addEventListener('keydown', function (evt) {
@@ -368,63 +430,16 @@ submitFormButtonElement.addEventListener('click', function () {
   getValidate();
 });
 
-resizeControlMinusElement.addEventListener('click', function () {
-  onImgResizeMinus();
+resizeControlElement.addEventListener('click', function (evt) {
+  switch (evt.target) {
+    case resizeControlMinusElement:
+      onImgResize(true, true);
+      break;
+    case resizeControlPlusElement:
+      onImgResize(false, true);
+      break;
+  }
 });
-
-resizeControlPlusElement.addEventListener('click', function () {
-  onImgResizePlus();
-});
-
-var onImgResizeMinus = function () {
-  var minValue = 25;
-  var step = 25;
-  var inputValue = parseInt(resizeControlValueElement.value, 10);
-
-  if (inputValue > minValue) {
-    previewUploadImgElement.style.transform = 'scale(0.' + (inputValue - step) + ')';
-    resizeControlValueElement.value = inputValue - step + '%';
-  }
-};
-
-var onImgResizePlus = function () {
-  var maxValue = 100;
-  var step = 25;
-  var inputValue = parseInt(resizeControlValueElement.value, 10);
-
-  if (inputValue < maxValue) {
-    if (parseInt(resizeControlValueElement.value, 10) === maxValue - step) {
-      previewUploadImgElement.removeAttribute('style');
-      resizeControlValueElement.value = maxValue + '%';
-    } else {
-      previewUploadImgElement.style.transform = 'scale(0.' + (inputValue + step) + ')';
-      resizeControlValueElement.value = inputValue + step + '%';
-    }
-  }
-};
-
-var refreshFilterDepth = function () {
-  switch (previewPhotoElement.className) {
-    case 'effects__preview--none':
-      previewPhotoElement.removeAttribute('filter');
-      break;
-    case 'effects__preview--chrome':
-      previewPhotoElement.style = 'filter: grayscale(' + getEffectDepth() + ');';
-      break;
-    case 'effects__preview--sepia':
-      previewPhotoElement.style = 'filter: sepia(' + getEffectDepth() + ');';
-      break;
-    case 'effects__preview--marvin':
-      previewPhotoElement.style = 'filter: invert(' + getEffectDepth() * 100 + '%);';
-      break;
-    case 'effects__preview--phobos':
-      previewPhotoElement.style = 'filter: blur(' + getEffectDepth() * 3 + 'px);';
-      break;
-    case 'effects__preview--heat':
-      previewPhotoElement.style = 'filter: brightness(' + getEffectDepth() * 3 + ');';
-      break;
-  }
-};
 
 scalePinElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
@@ -461,7 +476,3 @@ scalePinElement.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 });
-
-var getEffectDepth = function () {
-  return (scaleLevelElement.offsetWidth / scaleLineElement.offsetWidth).toFixed(2);
-};
