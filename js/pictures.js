@@ -433,7 +433,7 @@ submitFormButtonElement.addEventListener('click', function () {
 resizeControlElement.addEventListener('click', function (evt) {
   switch (evt.target) {
     case resizeControlMinusElement:
-      onImgResize(true, true);
+      onImgResize(true);
       break;
     case resizeControlPlusElement:
       onImgResize(false, true);
