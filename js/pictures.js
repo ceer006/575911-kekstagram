@@ -275,11 +275,15 @@ var checkSpaceHashtags = function (hashTag) {
 };
 
 var findPositionSymbolHashtag = function (hashTag) {
-  var isPositionSymbolHashtaValid = hashTag.search(/#/g) !== 0;
-  if (isPositionSymbolHashtaValid) {
+  var isPositionSymbolHashtagValid = hashTag.search(/#/g) !== 0;
+  var isPositionSymbolHashtag = hashTag.search(/#/g);
+  if (isPositionSymbolHashtag === -1) {
+    isPositionSymbolHashtagValid = false;
+  }
+  if (isPositionSymbolHashtagValid) {
     inputHashtagsElement.setCustomValidity('Хеш-тег должен начинаться с символа #');
   }
-  validityHashTags.push(isPositionSymbolHashtaValid);
+  validityHashTags.push(isPositionSymbolHashtagValid);
 };
 
 var getValidate = function () {
