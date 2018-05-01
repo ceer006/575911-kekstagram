@@ -94,6 +94,8 @@ var effectRadioElement = formSubmitElement.querySelectorAll('.effects__radio');
 
 var submitFormButtonElement = formSubmitElement.querySelector('.img-upload__submit');
 
+var listPhoto = document.querySelectorAll('.picture__link');
+
 var inputValue = parseInt(resizeControlValueElement.value, 10);
 
 var getRandom = function (min, max) {
@@ -218,8 +220,6 @@ var closeImgScale = function () {
 
 showPhotoList(photos);
 
-var listPhoto = document.querySelectorAll('.picture__link');
-
 var onListPhotoClick = function (index) {
   listPhoto[index].addEventListener('click', function () {
     showBigPhoto(photos[index]);
@@ -284,13 +284,9 @@ var findPositionSymbolHashtag = function (hashTag) {
 
 var getValidate = function () {
   var hashtags = inputHashtagsElement.value;
-
   hashtags = hashtags.toLowerCase();
-
   hashtags = hashtags.trim();
-
   var hashtagsArr = hashtags.split(/[\s]+/);
-
   if (hashtags === '') {
     return;
   } else {
@@ -307,7 +303,6 @@ var getValidate = function () {
       }
     }
   }
-
   if (validityHashTags.indexOf(false) === -1) {
     inputHashtagsElement.removeAttribute('style');
     inputHashtagsElement.setCustomValidity('');
