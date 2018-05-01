@@ -522,6 +522,7 @@ main {
   position: absolute;
   top: 0;
   left: 50%;
+  z-index: 2;
 
   font-family: "Open Sans", "Arial", sans-serif;
   font-weight: 400;
@@ -680,6 +681,7 @@ main {
           transform: translateX(-50%);
 
   cursor: move;
+  z-index: 1;
 }
 
 .scale__level {
