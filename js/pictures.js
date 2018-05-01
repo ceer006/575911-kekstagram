@@ -322,7 +322,7 @@ var resetSettingEffect = function () {
   inputHashtagsElement.setCustomValidity('');
   scalePinElement.removeAttribute('style');
   scaleLevelElement.removeAttribute('style');
-  imgUploadScaleValueElement.removeAttribute('value');
+  imgUploadScaleValueElement.value = '0';
   previewPhotoElement.removeAttribute('style');
   previewUploadImgElement.removeAttribute('style');
   removeClassPhoto();
@@ -330,12 +330,12 @@ var resetSettingEffect = function () {
 };
 
 var onImgResize = function (resize) {
-
-  inputValue = inputValue + STEP * resize;
-
-  previewUploadImgElement.style.transform = 'scale(0.' + inputValue + ')';
-
-  resizeControlValueElement.value = inputValue + '%';
+  var size = inputValue + STEP * resize;
+  if (size >= MIN_VALUE && size <= MAX_VALUE) {
+    inputValue = size;
+    previewUploadImgElement.style.transform = 'scale(' + inputValue / 100 + ')';
+    resizeControlValueElement.value = inputValue + '%';
+  }
 };
 
 var getEffectDepth = function () {
@@ -380,7 +380,7 @@ var onEffectPhotoClick = function (index) {
     previewPhotoElement.classList.add('effects__preview--' + effectRadioElement[index].value);
     scalePinElement.style = 'left: ' + MAX_X + 'px;';
     scaleLevelElement.style = 'width: 100%';
-    imgUploadScaleValueElement.setAttribute('value', '100');
+    imgUploadScaleValueElement.value = '100';
     refreshFilterDepth();
   });
 };
@@ -425,7 +425,7 @@ originalPhotoElement.addEventListener('click', function () {
   removeClassPhoto();
   closeImgScale();
   previewPhotoElement.removeAttribute('style');
-  imgUploadScaleValueElement.removeAttribute('value');
+  imgUploadScaleValueElement.value = '0';
 
 });
 
@@ -442,21 +442,11 @@ inputComentElement.addEventListener('keydown', function (evt) {
 });
 
 resizeControlMinusElement.addEventListener('click', function () {
-  if (inputValue > MIN_VALUE) {
-    onImgResize(-1);
-  }
+  onImgResize(-1);
 });
 
 resizeControlPlusElement.addEventListener('click', function () {
-  if (inputValue < MAX_VALUE) {
-    if (inputValue === MAX_VALUE - STEP) {
-      previewUploadImgElement.removeAttribute('style');
-      resizeControlValueElement.value = MAX_VALUE + '%';
-      inputValue = MAX_VALUE;
-    } else {
-      onImgResize(1);
-    }
-  }
+  onImgResize(1);
 });
 
 submitFormButtonElement.addEventListener('click', function () {
@@ -485,7 +475,7 @@ scalePinElement.addEventListener('mousedown', function (evt) {
       scalePinElement.style.left = (scalePinElement.offsetLeft - shift.x) + 'px';
       scaleLevelElement.style.width = (scaleLevelElement.offsetWidth - shift.x) + 'px';
       refreshFilterDepth();
-      imgUploadScaleValueElement.setAttribute('value', '' + getEffectDepthProcent());
+      imgUploadScaleValueElement.value = '' + getEffectDepthProcent();
     }
   };
 
