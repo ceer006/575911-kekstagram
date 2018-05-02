@@ -10,7 +10,7 @@
 
     photoElement.querySelector('.picture__img').src = photo.url;
     photoElement.querySelector('.picture__stat--likes').textContent = photo.likes;
-    photoElement.querySelector('.picture__stat--comments').textContent = photo.coments.length;
+    photoElement.querySelector('.picture__stat--comments').textContent = photo.comments.length;
 
     return photoElement;
   };
@@ -23,5 +23,5 @@
     otherUserPhotoElement.appendChild(fragment);
   };
 
-  showPhotoList(window.photos);
+  showPhotoList(window.photos.data);
 })();
