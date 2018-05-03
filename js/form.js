@@ -19,37 +19,37 @@
 
   var imgClass = '';
 
-  var formSubmitElement = document.querySelector('.img-upload__form');
+  var formElement = document.querySelector('.img-upload__form');
 
-  var resizeControlMinusElement = formSubmitElement.querySelector('.resize__control--minus');
+  var resizeControlMinusElement = formElement.querySelector('.resize__control--minus');
 
-  var resizeControlPlusElement = formSubmitElement.querySelector('.resize__control--plus');
+  var resizeControlPlusElement = formElement.querySelector('.resize__control--plus');
 
-  var resizeControlValueElement = formSubmitElement.querySelector('.resize__control--value');
+  var resizeControlValueElement = formElement.querySelector('.resize__control--value');
 
-  var scaleLevelElement = formSubmitElement.querySelector('.scale__level');
+  var scaleLevelElement = formElement.querySelector('.scale__level');
 
-  var scalePinElement = formSubmitElement.querySelector('.scale__pin');
+  var scalePinElement = formElement.querySelector('.scale__pin');
 
-  var scaleLineElement = formSubmitElement.querySelector('.scale__line');
+  var scaleLineElement = formElement.querySelector('.scale__line');
 
-  var inputHashtagsElement = formSubmitElement.querySelector('.text__hashtags');
+  var inputHashtagsElement = formElement.querySelector('.text__hashtags');
 
-  var inputCommentElement = formSubmitElement.querySelector('.text__description');
+  var inputCommentElement = formElement.querySelector('.text__description');
 
-  var effectPreviewElement = formSubmitElement.querySelectorAll('.effects__preview');
+  var effectPreviewElement = formElement.querySelectorAll('.effects__preview');
 
-  var effectRadioElement = formSubmitElement.querySelectorAll('.effects__radio');
+  var effectRadioElement = formElement.querySelectorAll('.effects__radio');
 
-  var submitFormButtonElement = formSubmitElement.querySelector('.img-upload__submit');
+  var submitFormButtonElement = formElement.querySelector('.img-upload__submit');
 
-  var previewUploadImgElement = formSubmitElement.querySelector('.img-upload__preview');
+  var previewUploadImgElement = formElement.querySelector('.img-upload__preview');
 
-  var imgUploadScaleElement = formSubmitElement.querySelector('.img-upload__scale');
+  var imgUploadScaleElement = formElement.querySelector('.img-upload__scale');
 
-  var overlayElement = formSubmitElement.querySelector('.img-upload__overlay');
+  var overlayElement = formElement.querySelector('.img-upload__overlay');
 
-  var originalPhotoElement = formSubmitElement.querySelector('#effect-none');
+  var originalPhotoElement = formElement.querySelector('#effect-none');
 
   var imgUploadScaleValueElement = imgUploadScaleElement.querySelector('.scale__value');
 
@@ -64,7 +64,7 @@
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === window.util.ESC_KEYCODE) {
       closePopup();
-      resetSettingEffect();
+      resetSetting();
     }
   };
 
@@ -169,7 +169,7 @@
     }
   };
 
-  var resetSettingEffect = function () {
+  var resetSetting = function () {
     inputHashtagsElement.removeAttribute('style');
     inputHashtagsElement.setCustomValidity('');
     scalePinElement.removeAttribute('style');
@@ -177,6 +177,8 @@
     imgUploadScaleValueElement.value = '0';
     previewPhotoElement.removeAttribute('style');
     previewUploadImgElement.removeAttribute('style');
+    inputHashtagsElement.value = '';
+    inputCommentElement.value = '';
     if (imgClass !== '') {
       previewPhotoElement.classList.remove(imgClass);
     }
@@ -258,13 +260,13 @@
 
   uploadCloseElement.addEventListener('click', function () {
     closePopup();
-    resetSettingEffect();
+    resetSetting();
   });
 
   uploadCloseElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.util.ENTER_KEYCODE) {
       closePopup();
-      resetSettingEffect();
+      resetSetting();
     }
   });
 
@@ -337,10 +339,13 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  formSubmitElement.addEventListener('submit', function (evt) {
-    window.backend.postData(new FormData(formSubmitElement), function (response) {
+  var onFormSubmit = function (evt) {
+    evt.preventDefault();
+    window.backend.postData(new FormData(formElement), function () {
       overlayElement.classList.add('hidden');
     });
-    evt.preventDefault();
-  });
+    resetSetting();
+  };
+
+  formElement.addEventListener('submit', onFormSubmit);
 })();

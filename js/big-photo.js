@@ -55,8 +55,8 @@
 
   var onListPhotoClick = function (index) {
     listPhoto[index].addEventListener('click', function () {
-      showBigPhoto(window.load.photos[index]);
-      showCommentsList(window.load.photos[index].comments);
+      showBigPhoto(window.photos.data[index]);
+      showCommentsList(window.photos.data[index].comments);
       document.addEventListener('keydown', onFullPhotoEscPress);
     });
   };

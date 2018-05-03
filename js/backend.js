@@ -40,6 +40,7 @@
 
       xhr.open('GET', URL);
       xhr.send();
+      return xhr.response;
     },
 
     postData: function (data, onLoad, onError) {
