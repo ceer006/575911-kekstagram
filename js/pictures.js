@@ -15,13 +15,31 @@
     return photoElement;
   };
 
-  var showPhotoList = function (photo) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photo.length; i++) {
-      fragment.appendChild(renderPhoto(photo[i]));
-    }
-    otherUserPhotoElement.appendChild(fragment);
+  var errorFormUpload = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.top = '30px';
+    node.style.fontSize = '24px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  window.backend.getData(showPhotoList);
+  var photosArray = {};
+
+  var showPhotoList = function (photos) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < photos.length; i++) {
+      fragment.appendChild(renderPhoto(photos[i]));
+    }
+    otherUserPhotoElement.appendChild(fragment);
+    photosArray = photos;
+  };
+
+  window.backend.getData(showPhotoList, errorFormUpload);
+
+  window.photos = photosArray;
 })();

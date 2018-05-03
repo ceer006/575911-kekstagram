@@ -8,25 +8,25 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        var alert;
+        var errorText;
         switch (xhr.status) {
           case 200:
             onSuccess(xhr.response);
             break;
           case 400:
-            alert = 'Неверный запрос';
+            errorText = 'Неверный запрос';
             break;
           case 401:
-            alert = 'Пользователь не авторизован';
+            errorText = 'Пользователь не авторизован';
             break;
           case 404:
-            alert = 'Ничего не найдено';
+            errorText = 'Ничего не найдено';
             break;
           default:
             onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
         }
-        if (alert) {
-          onError(alert);
+        if (errorText) {
+          onError(errorText);
         }
       });
       xhr.addEventListener('error', function () {
@@ -40,7 +40,6 @@
 
       xhr.open('GET', URL);
       xhr.send();
-      return xhr.response;
     },
 
     postData: function (data, onLoad, onError) {
@@ -48,25 +47,25 @@
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
       xhr.addEventListener('load', function () {
-        var alert;
+        var errorText;
         switch (xhr.status) {
           case 200:
             onLoad();
             break;
           case 400:
-            alert = 'Неверный запрос';
+            errorText = 'Неверный запрос';
             break;
           case 401:
-            alert = 'Пользователь не авторизован';
+            errorText = 'Пользователь не авторизован';
             break;
           case 404:
-            alert = 'Ничего не найдено';
+            errorText = 'Ничего не найдено';
             break;
           default:
-            alert = 'Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText;
+            errorText = 'Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText;
         }
-        if (alert) {
-          onError(alert);
+        if (errorText) {
+          onError(errorText);
         }
       });
       xhr.addEventListener('error', function () {

@@ -51,6 +51,8 @@
 
   var originalPhotoElement = formElement.querySelector('#effect-none');
 
+  var errorForm = formElement.querySelector('.img-upload__message--error');
+
   var imgUploadScaleValueElement = imgUploadScaleElement.querySelector('.scale__value');
 
   var previewPhotoElement = previewUploadImgElement.querySelector('img');
@@ -64,7 +66,7 @@
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === window.util.ESC_KEYCODE) {
       closePopup();
-      resetSetting();
+      resetSettings();
     }
   };
 
@@ -169,7 +171,7 @@
     }
   };
 
-  var resetSetting = function () {
+  var resetSettings = function () {
     inputHashtagsElement.removeAttribute('style');
     inputHashtagsElement.setCustomValidity('');
     scalePinElement.removeAttribute('style');
@@ -260,13 +262,13 @@
 
   uploadCloseElement.addEventListener('click', function () {
     closePopup();
-    resetSetting();
+    resetSettings();
   });
 
   uploadCloseElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.util.ENTER_KEYCODE) {
       closePopup();
-      resetSetting();
+      resetSettings();
     }
   });
 
@@ -339,12 +341,29 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
+  var errorFormUpload = function (errorMessage) {
+    overlayElement.classList.add('hidden');
+    errorForm.classList.remove('hidden');
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.top = '30px';
+    node.style.fontSize = '24px';
+
+    node.textContent = errorMessage;
+    errorForm.insertAdjacentElement('afterbegin', node);
+  };
+
+  var formUploadExcellent = function () {
+    overlayElement.classList.add('hidden');
+  };
+
   var onFormSubmit = function (evt) {
     evt.preventDefault();
-    window.backend.postData(new FormData(formElement), function () {
-      overlayElement.classList.add('hidden');
-    });
-    resetSetting();
+    window.backend.postData(new FormData(formElement), formUploadExcellent, errorFormUpload);
+    resetSettings();
   };
 
   formElement.addEventListener('submit', onFormSubmit);
