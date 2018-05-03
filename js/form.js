@@ -177,7 +177,9 @@
     imgUploadScaleValueElement.value = '0';
     previewPhotoElement.removeAttribute('style');
     previewUploadImgElement.removeAttribute('style');
-    previewPhotoElement.classList.remove(imgClass);
+    if (imgClass !== '') {
+      previewPhotoElement.classList.remove(imgClass);
+    }
     closeImgScale();
     for (var i = 1; i < effectRadioElement.length; i++) {
       effectRadioElement[i].checked = false;
@@ -333,5 +335,12 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+  });
+
+  formSubmitElement.addEventListener('submit', function (evt) {
+    window.backend.postData(new FormData(formSubmitElement), function (response) {
+      overlayElement.classList.add('hidden');
+    });
+    evt.preventDefault();
   });
 })();

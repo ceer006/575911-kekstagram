@@ -15,13 +15,22 @@
     return photoElement;
   };
 
-  var showPhotoList = function (photo) {
+  // var showPhotoList = function (photo) {
+  //   var fragment = document.createDocumentFragment();
+  //   for (var i = 0; i < photo.length; i++) {
+  //     fragment.appendChild(renderPhoto(photo[i]));
+  //   }
+  //   otherUserPhotoElement.appendChild(fragment);
+  // };
+
+  // showPhotoList(window.photos.data);
+
+  window.backend.getData(function (photos) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photo.length; i++) {
-      fragment.appendChild(renderPhoto(photo[i]));
+
+    for (var i = 0; i < 25; i++) {
+      fragment.appendChild(renderPhoto(photos[i]));
     }
     otherUserPhotoElement.appendChild(fragment);
-  };
-
-  showPhotoList(window.photos.data);
+  });
 })();
