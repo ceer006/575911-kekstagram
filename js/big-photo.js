@@ -13,7 +13,7 @@
 
   var removeCommentsElement = document.querySelector('.social__comments');
 
-  var listPhoto = document.querySelectorAll('.picture__link');
+  var listPhoto;
 
   var socialCommentElement = document.querySelector('.social__comment');
 
@@ -24,7 +24,7 @@
   var getUsersComments = function (comment) {
     newSocialCommentElement = socialCommentElement.cloneNode(true);
 
-    newSocialCommentElement.querySelector('.social__picture').src = 'img/avatar-' + window.util.getRandom(1, QUANTITY_AVATARS) + '.svg';
+    newSocialCommentElement.querySelector('.social__picture').src = 'img/avatar-' + window.utils.getRandom(1, QUANTITY_AVATARS) + '.svg';
     newSocialCommentElement.querySelector('p').textContent = comment;
 
     return newSocialCommentElement;
@@ -53,20 +53,23 @@
     commentsCountElement.textContent = photo.comments.length;
   };
 
-  var onListPhotoClick = function (index) {
+  var onListPhotoClick = function (index, photos) {
     listPhoto[index].addEventListener('click', function () {
-      showBigPhoto(window.photos.data[index]);
-      showCommentsList(window.photos.data[index].comments);
+      showBigPhoto(photos[index]);
+      showCommentsList(photos[index].comments);
       document.addEventListener('keydown', onFullPhotoEscPress);
     });
   };
 
-  for (var i = 0; i < listPhoto.length; i++) {
-    onListPhotoClick(i);
-  }
+  var getPhotoList = function (photos) {
+    listPhoto = document.querySelectorAll('.picture__link');
+    for (var i = 0; i < listPhoto.length; i++) {
+      onListPhotoClick(i, photos);
+    }
+  };
 
   var onFullPhotoEscPress = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       closeFullPhoto();
     }
   };
@@ -81,8 +84,12 @@
   });
 
   fullPhotoCloseElement.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    if (evt.keyCode === window.utils.ENTER_KEYCODE) {
       closeFullPhoto();
     }
   });
+
+  window.bigphoto = {
+    getPhotoList: getPhotoList
+  };
 })();
