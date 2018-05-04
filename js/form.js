@@ -64,7 +64,7 @@
   var inputValue = parseInt(resizeControlValueElement.value, 10);
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       closePopup();
       resetSettings();
     }
@@ -255,7 +255,7 @@
   });
 
   uploadFileElement.addEventListener('change', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    if (evt.keyCode === window.utils.ENTER_KEYCODE) {
       openPopup();
     }
   });
@@ -266,7 +266,7 @@
   });
 
   uploadCloseElement.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    if (evt.keyCode === window.utils.ENTER_KEYCODE) {
       closePopup();
       resetSettings();
     }
@@ -281,13 +281,13 @@
   });
 
   inputHashtagsElement.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       evt.stopPropagation();
     }
   });
 
   inputCommentElement.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       evt.stopPropagation();
     }
   });
@@ -341,28 +341,17 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  var errorFormUpload = function (errorMessage) {
-    overlayElement.classList.add('hidden');
-    errorForm.classList.remove('hidden');
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.top = '30px';
-    node.style.fontSize = '24px';
-
-    node.textContent = errorMessage;
-    errorForm.insertAdjacentElement('afterbegin', node);
-  };
-
-  var formUploadExcellent = function () {
+  var onFormUploadSuccess = function () {
     overlayElement.classList.add('hidden');
   };
 
   var onFormSubmit = function (evt) {
     evt.preventDefault();
-    window.backend.postData(new FormData(formElement), formUploadExcellent, errorFormUpload);
+    window.backend.postData(new FormData(formElement), onFormUploadSuccess, window.utils.filedReqest);
+    if (window.utils.filedReqest) {
+      overlayElement.classList.add('hidden');
+      errorForm.classList.remove('hidden');
+    }
     resetSettings();
   };
 

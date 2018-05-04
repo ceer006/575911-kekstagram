@@ -15,20 +15,11 @@
     return photoElement;
   };
 
-  var errorFormUpload = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.top = '30px';
-    node.style.fontSize = '24px';
+  var photosArray = [];
 
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+  var getPhotoArray = function (photos) {
+    photosArray = photos;
   };
-
-  var photosArray = {};
 
   var showPhotoList = function (photos) {
     var fragment = document.createDocumentFragment();
@@ -36,10 +27,11 @@
       fragment.appendChild(renderPhoto(photos[i]));
     }
     otherUserPhotoElement.appendChild(fragment);
-    photosArray = photos;
   };
 
-  window.backend.getData(showPhotoList, errorFormUpload);
+  window.backend.getData(showPhotoList, window.utils.filedReqest);
 
-  window.photos = photosArray;
+  window.backend.getData(getPhotoArray, window.utils.filedReqest);
+
+  window.photosArray = photosArray;
 })();

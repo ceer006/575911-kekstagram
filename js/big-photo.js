@@ -24,7 +24,7 @@
   var getUsersComments = function (comment) {
     newSocialCommentElement = socialCommentElement.cloneNode(true);
 
-    newSocialCommentElement.querySelector('.social__picture').src = 'img/avatar-' + window.util.getRandom(1, QUANTITY_AVATARS) + '.svg';
+    newSocialCommentElement.querySelector('.social__picture').src = 'img/avatar-' + window.utils.getRandom(1, QUANTITY_AVATARS) + '.svg';
     newSocialCommentElement.querySelector('p').textContent = comment;
 
     return newSocialCommentElement;
@@ -55,8 +55,8 @@
 
   var onListPhotoClick = function (index) {
     listPhoto[index].addEventListener('click', function () {
-      showBigPhoto(window.photos[index]);
-      showCommentsList(window.photos[index].comments);
+      showBigPhoto(window.photosArray[index]);
+      showCommentsList(window.photosArray[index].comments);
       document.addEventListener('keydown', onFullPhotoEscPress);
     });
   };
@@ -66,7 +66,7 @@
   }
 
   var onFullPhotoEscPress = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       closeFullPhoto();
     }
   };
@@ -81,7 +81,7 @@
   });
 
   fullPhotoCloseElement.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    if (evt.keyCode === window.utils.ENTER_KEYCODE) {
       closeFullPhoto();
     }
   });
