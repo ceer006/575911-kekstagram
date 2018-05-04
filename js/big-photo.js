@@ -13,7 +13,7 @@
 
   var removeCommentsElement = document.querySelector('.social__comments');
 
-  var listPhoto = document.querySelectorAll('.picture__link');
+  var listPhoto;
 
   var socialCommentElement = document.querySelector('.social__comment');
 
@@ -62,6 +62,7 @@
   };
 
   var getPhotoList = function (photos) {
+    listPhoto = document.querySelectorAll('.picture__link');
     for (var i = 0; i < listPhoto.length; i++) {
       onListPhotoClick(i, photos);
     }

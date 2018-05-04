@@ -19,6 +19,8 @@
 
   var imgClass = '';
 
+  var effectButton;
+
   var formElement = document.querySelector('.img-upload__form');
 
   var resizeControlMinusElement = formElement.querySelector('.resize__control--minus');
@@ -209,31 +211,33 @@
   };
 
   var refreshFilterDepth = function () {
-    // var effect;
-    switch (previewPhotoElement.className) {
-      case 'effects__preview--none':
+    var effectValue;
+    switch (effectButton) {
+      case 'none':
         previewPhotoElement.removeAttribute('style');
         break;
-      case 'effects__preview--chrome':
-        previewPhotoElement.style = 'filter: grayscale(' + getEffectDepth() + ');';
+      case 'chrome':
+        effectValue = 'filter: grayscale(' + getEffectDepth() + ');';
         break;
-      case 'effects__preview--sepia':
-        previewPhotoElement.style = 'filter: sepia(' + getEffectDepth() + ');';
+      case 'sepia':
+        effectValue = 'filter: sepia(' + getEffectDepth() + ');';
         break;
-      case 'effects__preview--marvin':
-        previewPhotoElement.style = 'filter: invert(' + getEffectDepth() * 100 + '%);';
+      case 'marvin':
+        effectValue = 'filter: invert(' + getEffectDepth() * 100 + '%);';
         break;
-      case 'effects__preview--phobos':
-        previewPhotoElement.style = 'filter: blur(' + getEffectDepth() * 3 + 'px);';
+      case 'phobos':
+        effectValue = 'filter: blur(' + getEffectDepth() * 3 + 'px);';
         break;
-      case 'effects__preview--heat':
-        previewPhotoElement.style = 'filter: brightness(' + getEffectDepth() * 3 + ');';
+      case 'heat':
+        effectValue = 'filter: brightness(' + getEffectDepth() * 3 + ');';
         break;
     }
+    previewPhotoElement.style = effectValue;
   };
 
   var onEffectPhotoClick = function (index) {
-    effectRadioElement[index].addEventListener('click', function () {
+    effectRadioElement[index].addEventListener('click', function (evt) {
+      effectButton = evt.target.value;
       if (imgClass !== '') {
         previewPhotoElement.classList.remove(imgClass);
       }
@@ -344,16 +348,16 @@
 
   var onFormUploadSuccess = function () {
     overlayElement.classList.add('hidden');
+    formElement.reset();
   };
 
   var onFormSubmit = function (evt) {
     evt.preventDefault();
-    window.backend.postData(new FormData(formElement), onFormUploadSuccess, window.utils.createMessage);
-    if (window.utils.createMessage) {
-      overlayElement.classList.add('hidden');
+    window.backend.postData(new FormData(formElement), onFormUploadSuccess, function (errorMessage) {
+      window.utils.createMessage(errorMessage);
       errorForm.classList.remove('hidden');
-    }
-    resetSettings();
+      overlayElement.classList.add('hidden');
+    });
   };
 
   formElement.addEventListener('submit', onFormSubmit);
