@@ -15,23 +15,15 @@
     return photoElement;
   };
 
-  var photosArray = [];
-
-  var getPhotoArray = function (photos) {
-    photosArray = photos;
-  };
-
   var showPhotoList = function (photos) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < photos.length; i++) {
       fragment.appendChild(renderPhoto(photos[i]));
     }
     otherUserPhotoElement.appendChild(fragment);
+    window.getPhotoList(photos);
+    window.photosArray = photos;
   };
 
-  window.backend.getData(showPhotoList, window.utils.filedReqest);
-
-  window.backend.getData(getPhotoArray, window.utils.filedReqest);
-
-  window.photosArray = photosArray;
+  window.backend.getData(showPhotoList, window.utils.createMessage);
 })();

@@ -347,8 +347,8 @@
 
   var onFormSubmit = function (evt) {
     evt.preventDefault();
-    window.backend.postData(new FormData(formElement), onFormUploadSuccess, window.utils.filedReqest);
-    if (window.utils.filedReqest) {
+    window.backend.postData(new FormData(formElement), onFormUploadSuccess, window.utils.createMessage);
+    if (window.utils.createMessage) {
       overlayElement.classList.add('hidden');
       errorForm.classList.remove('hidden');
     }

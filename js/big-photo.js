@@ -53,17 +53,19 @@
     commentsCountElement.textContent = photo.comments.length;
   };
 
-  var onListPhotoClick = function (index) {
+  var onListPhotoClick = function (index, photos) {
     listPhoto[index].addEventListener('click', function () {
-      showBigPhoto(window.photosArray[index]);
-      showCommentsList(window.photosArray[index].comments);
+      showBigPhoto(photos[index]);
+      showCommentsList(photos[index].comments);
       document.addEventListener('keydown', onFullPhotoEscPress);
     });
   };
 
-  for (var i = 0; i < listPhoto.length; i++) {
-    onListPhotoClick(i);
-  }
+  window.getPhotoList = function (photos) {
+    for (var i = 0; i < listPhoto.length; i++) {
+      onListPhotoClick(i, photos);
+    }
+  };
 
   var onFullPhotoEscPress = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {

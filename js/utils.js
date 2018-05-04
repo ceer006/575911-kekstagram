@@ -7,7 +7,7 @@
     getRandom: function (min, max) {
       return Math.floor(Math.random() * (max - min) + min);
     },
-    filedReqest: function (errorMessage) {
+    createMessage: function (errorMessage) {
       var node = document.createElement('div');
       node.style = 'z-index: 100; margin: 0 auto; text-align: center;';
       node.style.position = 'absolute';
