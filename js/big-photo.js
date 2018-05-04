@@ -61,7 +61,7 @@
     });
   };
 
-  window.getPhotoList = function (photos) {
+  var getPhotoList = function (photos) {
     for (var i = 0; i < listPhoto.length; i++) {
       onListPhotoClick(i, photos);
     }
@@ -87,4 +87,8 @@
       closeFullPhoto();
     }
   });
+
+  window.bigphoto = {
+    getPhotoList: getPhotoList
+  };
 })();

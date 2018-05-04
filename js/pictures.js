@@ -21,8 +21,7 @@
       fragment.appendChild(renderPhoto(photos[i]));
     }
     otherUserPhotoElement.appendChild(fragment);
-    window.getPhotoList(photos);
-    window.photosArray = photos;
+    window.bigphoto.getPhotoList(photos);
   };
 
   window.backend.getData(showPhotoList, window.utils.createMessage);

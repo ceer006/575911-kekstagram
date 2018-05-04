@@ -209,9 +209,10 @@
   };
 
   var refreshFilterDepth = function () {
+    // var effect;
     switch (previewPhotoElement.className) {
       case 'effects__preview--none':
-        previewPhotoElement.removeAttribute('filter');
+        previewPhotoElement.removeAttribute('style');
         break;
       case 'effects__preview--chrome':
         previewPhotoElement.style = 'filter: grayscale(' + getEffectDepth() + ');';
