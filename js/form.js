@@ -19,7 +19,7 @@
 
   var imgClass = '';
 
-  var effectButton;
+  var effectValue;
 
   var formElement = document.querySelector('.img-upload__form');
 
@@ -211,33 +211,33 @@
   };
 
   var refreshFilterDepth = function () {
-    var effectValue;
-    switch (effectButton) {
+    var effectStyle;
+    switch (effectValue) {
       case 'none':
         previewPhotoElement.removeAttribute('style');
         break;
       case 'chrome':
-        effectValue = 'filter: grayscale(' + getEffectDepth() + ');';
+        effectStyle = 'filter: grayscale(' + getEffectDepth() + ');';
         break;
       case 'sepia':
-        effectValue = 'filter: sepia(' + getEffectDepth() + ');';
+        effectStyle = 'filter: sepia(' + getEffectDepth() + ');';
         break;
       case 'marvin':
-        effectValue = 'filter: invert(' + getEffectDepth() * 100 + '%);';
+        effectStyle = 'filter: invert(' + getEffectDepth() * 100 + '%);';
         break;
       case 'phobos':
-        effectValue = 'filter: blur(' + getEffectDepth() * 3 + 'px);';
+        effectStyle = 'filter: blur(' + getEffectDepth() * 3 + 'px);';
         break;
       case 'heat':
-        effectValue = 'filter: brightness(' + getEffectDepth() * 3 + ');';
+        effectStyle = 'filter: brightness(' + getEffectDepth() * 3 + ');';
         break;
     }
-    previewPhotoElement.style = effectValue;
+    previewPhotoElement.style = effectStyle;
   };
 
   var onEffectPhotoClick = function (index) {
     effectRadioElement[index].addEventListener('click', function (evt) {
-      effectButton = evt.target.value;
+      effectValue = evt.target.value;
       if (imgClass !== '') {
         previewPhotoElement.classList.remove(imgClass);
       }
