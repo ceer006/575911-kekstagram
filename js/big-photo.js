@@ -17,7 +17,7 @@
 
   var socialCommentElement = document.querySelector('.social__comment');
 
-  var newSocialCommentElement = socialCommentElement.cloneNode(true);
+  var newSocialCommentElement;
 
   var fullPhotoCloseElement = document.querySelector('.big-picture__cancel');
 

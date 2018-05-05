@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var lastTimeout;
+
   window.utils = {
     ESC_KEYCODE: 27,
     ENTER_KEYCODE: 13,
@@ -17,6 +19,12 @@
       node.style.fontSize = '24px';
       node.textContent = errorMessage;
       document.body.insertAdjacentElement('afterbegin', node);
+    },
+    debounce: function (fun, interval) {
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(fun, interval);
     }
   };
 })();
