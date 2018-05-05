@@ -20,7 +20,7 @@
   var onLoad = function (photos) {
     showPhotoList(photos);
     imgFiltersElement.classList.remove('img-filters--inactive');
-    window.filters.photosArray = photos;
+    window.filters.initializeData(photos);
   };
 
   var showPhotoList = function (photos) {

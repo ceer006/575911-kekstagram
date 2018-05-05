@@ -5,7 +5,7 @@
 
   var filterId = 'filter-recommended';
 
-  var photosArray = [];
+  var photosArray;
 
   var photosArraySort = [];
 
@@ -55,7 +55,6 @@
         photosArraySort = sortByRandom(photosArray);
         break;
     }
-
   };
 
   var onFilterPhotoClick = function (evt) {
@@ -72,11 +71,14 @@
     window.utils.debounce(window.picture.showPhotoList(photosArraySort), DEBOUNCE_INTERVAL);
   };
 
-  [].forEach.call(filtersButtonElement, function (filter) {
-    filter.addEventListener('click', onFilterPhotoClick);
-  });
+  var onInitializeData = function (photos) {
+    photosArray = photos;
+    [].forEach.call(filtersButtonElement, function (filter) {
+      filter.addEventListener('click', onFilterPhotoClick);
+    });
+  };
 
   window.filters = {
-    photosArray: photosArray
+    initializeData: onInitializeData
   };
 })();
