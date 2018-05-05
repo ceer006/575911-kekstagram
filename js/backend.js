@@ -1,6 +1,13 @@
 'use strict';
 
 (function () {
+  var Code = {
+    SUCCSESS: 200,
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    NOT_FOUND: 404
+  };
+
   window.backend = {
     getData: function (onSuccess, onError) {
       var URL = 'https://js.dump.academy/kekstagram/data';
@@ -10,16 +17,16 @@
       xhr.addEventListener('load', function () {
         var errorText;
         switch (xhr.status) {
-          case 200:
+          case Code.SUCCSESS:
             onSuccess(xhr.response);
             break;
-          case 400:
+          case Code.BAD_REQUEST:
             errorText = 'Неверный запрос';
             break;
-          case 401:
+          case Code.UNAUTHORIZED:
             errorText = 'Пользователь не авторизован';
             break;
-          case 404:
+          case Code.NOT_FOUND:
             errorText = 'Ничего не найдено';
             break;
           default:
