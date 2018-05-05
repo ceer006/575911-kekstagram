@@ -90,18 +90,17 @@
 
   var onFilterPhotoClick = function (evt) {
     if (evt.target.id === filterId) {
-      filterId = evt.target.id;
+      return;
     } else {
       var imgFilterActiveElement = imgFiltersElement.querySelector('#' + filterId);
       imgFilterActiveElement.classList.remove('img-filters__button--active');
       filterId = evt.target.id;
       imgFilterActiveElement = imgFiltersElement.querySelector('#' + filterId);
       imgFilterActiveElement.classList.add('img-filters__button--active');
+      applyFilter();
+      removePhotoList();
+      window.utils.debounce(showPhotoList(photosArraySort), DEBOUNCE_INTERVAL);
     }
-    applyFilter();
-    removePhotoList();
-    showPhotoList(photosArraySort);
-    window.debounce(showPhotoList, DEBOUNCE_INTERVAL);
   };
 
   [].forEach.call(filtersButtonElement, function (filter) {
