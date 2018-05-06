@@ -64,15 +64,14 @@
   };
 
   var onFilterPhotoClick = function (evt) {
-    if (evt.target.id === filterId) {
-      return;
+    if (evt.target.id !== filterId) {
+      var imgFilterActiveElement = imgFiltersElement.querySelector('#' + filterId);
+      imgFilterActiveElement.classList.remove('img-filters__button--active');
+      filterId = evt.target.id;
+      imgFilterActiveElement = imgFiltersElement.querySelector('#' + filterId);
+      imgFilterActiveElement.classList.add('img-filters__button--active');
+      window.utils.debounce(redrawPhotoList(), DEBOUNCE_INTERVAL);
     }
-    var imgFilterActiveElement = imgFiltersElement.querySelector('#' + filterId);
-    imgFilterActiveElement.classList.remove('img-filters__button--active');
-    filterId = evt.target.id;
-    imgFilterActiveElement = imgFiltersElement.querySelector('#' + filterId);
-    imgFilterActiveElement.classList.add('img-filters__button--active');
-    window.utils.debounce(redrawPhotoList(), DEBOUNCE_INTERVAL);
   };
 
   var onInitializeData = function (photos) {
