@@ -70,7 +70,7 @@
       filterId = evt.target.id;
       imgFilterActiveElement = imgFiltersElement.querySelector('#' + filterId);
       imgFilterActiveElement.classList.add('img-filters__button--active');
-      window.utils.debounce(redrawPhotoList(), DEBOUNCE_INTERVAL);
+      window.utils.debounce(redrawPhotoList, DEBOUNCE_INTERVAL);
     }
   };
 
