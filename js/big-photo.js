@@ -5,7 +5,9 @@
 
   var bigPictureElement = document.querySelector('.big-picture');
 
-  var bigPictureImgElement = bigPictureElement.querySelector('.big-picture__img');
+  var bigPictureWrapElement = bigPictureElement.querySelector('.big-picture__img');
+
+  var bigPictureImgElement = bigPictureWrapElement.querySelector('img');
 
   var likesCountElement = bigPictureElement.querySelector('.likes-count');
 
@@ -13,7 +15,11 @@
 
   var removeCommentsElement = document.querySelector('.social__comments');
 
-  var listPhoto;
+  var commentCountElement = document.querySelector('.social__comment-count');
+
+  var commentLoadmoreElement = document.querySelector('.social__comment-loadmore');
+
+  var photoElements;
 
   var socialCommentElement = document.querySelector('.social__comment');
 
@@ -48,13 +54,13 @@
   var showBigPhoto = function (photo) {
     bigPictureElement.classList.remove('hidden');
 
-    bigPictureImgElement.querySelector('img').src = photo.url;
+    bigPictureImgElement.src = photo.url;
     likesCountElement.textContent = photo.likes;
     commentsCountElement.textContent = photo.comments.length;
   };
 
-  var onListPhotoClick = function (index, photos) {
-    listPhoto[index].addEventListener('click', function () {
+  var addClickListPhoto = function (index, photos) {
+    photoElements[index].addEventListener('click', function () {
       showBigPhoto(photos[index]);
       showCommentsList(photos[index].comments);
       document.addEventListener('keydown', onFullPhotoEscPress);
@@ -62,9 +68,9 @@
   };
 
   var getPhotoList = function (photos) {
-    listPhoto = document.querySelectorAll('.picture__link');
-    [].forEach.call(listPhoto, function (listPhotoClick, index) {
-      onListPhotoClick(index, photos);
+    photoElements = document.querySelectorAll('.picture__link');
+    [].forEach.call(photoElements, function (listPhotoClick, index) {
+      addClickListPhoto(index, photos);
     });
   };
 
@@ -88,6 +94,9 @@
       closeFullPhoto();
     }
   });
+
+  commentCountElement.classList.add('hidden');
+  commentLoadmoreElement.classList.add('hidden');
 
   window.bigphoto = {
     getPhotoList: getPhotoList

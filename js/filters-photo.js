@@ -5,13 +5,13 @@
 
   var filterId = 'filter-recommended';
 
-  var photosArray;
+  var dataPhotos;
 
-  var photosArraySort = [];
+  var dataSortingPhotos = [];
 
   var imgFiltersElement = document.querySelector('.img-filters');
 
-  var filtersButtonElement = imgFiltersElement.querySelectorAll('.img-filters__button');
+  var filterButtonElements = imgFiltersElement.querySelectorAll('.img-filters__button');
 
   var sortByLikes = function (arr) {
     return arr.slice().sort(function (first, second) {
@@ -34,33 +34,37 @@
   };
 
   var removePhotoList = function () {
-    var removePicturesElement = window.picture.otherUserPhotoElement.querySelectorAll('.picture__link');
-    [].forEach.call(removePicturesElement, function (removingPicture) {
+    var removePictureElements = window.picture.otherUserPhotoElement.querySelectorAll('.picture__link');
+    [].forEach.call(removePictureElements, function (removingPicture) {
       removingPicture.remove();
     });
   };
 
   var applyFilter = function () {
     switch (filterId) {
-      case 'filter-recommended':
-        photosArraySort = photosArray;
+      case 'filter-recommended': {
+        dataSortingPhotos = dataPhotos;
         break;
-      case 'filter-popular':
-        photosArraySort = sortByLikes(photosArray);
+      }
+      case 'filter-popular': {
+        dataSortingPhotos = sortByLikes(dataPhotos);
         break;
-      case 'filter-discussed':
-        photosArraySort = sortByComments(photosArray);
+      }
+      case 'filter-discussed': {
+        dataSortingPhotos = sortByComments(dataPhotos);
         break;
-      case 'filter-random':
-        photosArraySort = sortByRandom(photosArray);
+      }
+      case 'filter-random': {
+        dataSortingPhotos = sortByRandom(dataPhotos);
         break;
+      }
     }
   };
 
   var redrawPhotoList = function () {
     applyFilter();
     removePhotoList();
-    window.picture.showPhotoList(photosArraySort);
+    window.picture.showPhotoList(dataSortingPhotos);
   };
 
   var onFilterPhotoClick = function (evt) {
@@ -75,8 +79,8 @@
   };
 
   var onInitializeData = function (photos) {
-    photosArray = photos;
-    [].forEach.call(filtersButtonElement, function (filter) {
+    dataPhotos = photos;
+    [].forEach.call(filterButtonElements, function (filter) {
       filter.addEventListener('click', onFilterPhotoClick);
     });
   };

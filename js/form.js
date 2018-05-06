@@ -5,6 +5,8 @@
 
   var HASHTAGS_LENGTH = 20;
 
+  var MIN_X = 0;
+
   var MIN_VALUE = 25;
 
   var MAX_VALUE = 100;
@@ -35,9 +37,9 @@
 
   var inputCommentElement = formElement.querySelector('.text__description');
 
-  var effectPreviewElement = formElement.querySelectorAll('.effects__preview');
+  var effectPreviewElements = formElement.querySelectorAll('.effects__preview');
 
-  var effectRadioElement = formElement.querySelectorAll('.effects__radio');
+  var effectRadioElements = formElement.querySelectorAll('.effects__radio');
 
   var submitFormButtonElement = formElement.querySelector('.img-upload__submit');
 
@@ -60,8 +62,6 @@
   var uploadCloseElement = overlayElement.querySelector('.img-upload__cancel');
 
   var inputValue = parseInt(resizeControlValueElement.value, 10);
-
-  var MIN_X = 0;
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
@@ -142,21 +142,21 @@
   };
 
   var getValidate = function () {
-    var hashtags = inputHashtagsElement.value;
-    hashtags = hashtags.toLowerCase();
-    hashtags = hashtags.trim();
-    var hashtagsArr = hashtags.split(/[\s]+/);
-    if (hashtags === '') {
+    var hashtagsValue = inputHashtagsElement.value;
+    hashtagsValue = hashtagsValue.toLowerCase();
+    hashtagsValue = hashtagsValue.trim();
+    var hashtags = hashtagsValue.split(/[\s]+/);
+    if (hashtagsValue === '') {
       return;
     } else {
-      for (var i = 0; i < hashtagsArr.length; i++) {
+      for (var i = 0; i < hashtags.length; i++) {
         if (validityHashTags.indexOf(false) === -1) {
-          getSameHashtags(hashtagsArr, hashtagsArr[i], i);
-          getHashtagLength(hashtagsArr[i]);
-          checkSymbolHashtags(hashtagsArr[i]);
-          checkSpaceHashtags(hashtagsArr[i]);
-          findPositionSymbolHashtag(hashtagsArr[i]);
-          getQuantityHashtags(hashtagsArr);
+          getSameHashtags(hashtags, hashtags[i], i);
+          getHashtagLength(hashtags[i]);
+          checkSymbolHashtags(hashtags[i]);
+          checkSpaceHashtags(hashtags[i]);
+          findPositionSymbolHashtag(hashtags[i]);
+          getQuantityHashtags(hashtags);
         } else {
           break;
         }
@@ -185,7 +185,7 @@
       previewPhotoElement.classList.remove(imgClass);
     }
     closeImgScale();
-    [].forEach.call(effectRadioElement, function (effectRadio) {
+    [].forEach.call(effectRadioElements, function (effectRadio) {
       effectRadio.checked = false;
     });
     originalPhotoElement.checked = true;
@@ -207,35 +207,41 @@
   var refreshFilterDepth = function () {
     var effectStyle;
     switch (effectValue) {
-      case 'none':
+      case 'none': {
         previewPhotoElement.removeAttribute('style');
         break;
-      case 'chrome':
+      }
+      case 'chrome': {
         effectStyle = 'filter: grayscale(' + getEffectDepth() + ');';
         break;
-      case 'sepia':
+      }
+      case 'sepia': {
         effectStyle = 'filter: sepia(' + getEffectDepth() + ');';
         break;
-      case 'marvin':
+      }
+      case 'marvin': {
         effectStyle = 'filter: invert(' + getEffectDepth() * 100 + '%);';
         break;
-      case 'phobos':
+      }
+      case 'phobos': {
         effectStyle = 'filter: blur(' + getEffectDepth() * 3 + 'px);';
         break;
-      case 'heat':
+      }
+      case 'heat': {
         effectStyle = 'filter: brightness(' + getEffectDepth() * 3 + ');';
         break;
+      }
     }
     previewPhotoElement.style = effectStyle;
   };
 
   var onEffectPhotoClick = function (index) {
-    effectRadioElement[index].addEventListener('click', function (evt) {
+    effectRadioElements[index].addEventListener('click', function (evt) {
       effectValue = evt.target.value;
       if (imgClass !== '') {
         previewPhotoElement.classList.remove(imgClass);
       }
-      imgClass = 'effects__preview--' + effectRadioElement[index].value;
+      imgClass = 'effects__preview--' + effectRadioElements[index].value;
       openImgScale();
       previewPhotoElement.classList.add(imgClass);
       scalePinElement.style = 'left: ' + scaleLineElement.offsetWidth + 'px;';
@@ -245,7 +251,7 @@
     });
   };
 
-  for (var j = 1; j < effectPreviewElement.length; j++) {
+  for (var j = 1; j < effectPreviewElements.length; j++) {
     onEffectPhotoClick(j);
   }
 
