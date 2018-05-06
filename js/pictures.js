@@ -25,9 +25,9 @@
 
   var showPhotoList = function (photos) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photos.length; i++) {
-      fragment.appendChild(renderPhoto(photos[i]));
-    }
+    photos.forEach(function (photo) {
+      fragment.appendChild(renderPhoto(photo));
+    });
     otherUserPhotoElement.appendChild(fragment);
 
     window.bigphoto.getPhotoList(photos);

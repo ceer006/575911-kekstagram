@@ -57,6 +57,12 @@
     }
   };
 
+  var redrawPhotoList = function () {
+    applyFilter();
+    removePhotoList();
+    window.picture.showPhotoList(photosArraySort);
+  };
+
   var onFilterPhotoClick = function (evt) {
     if (evt.target.id === filterId) {
       return;
@@ -66,9 +72,7 @@
     filterId = evt.target.id;
     imgFilterActiveElement = imgFiltersElement.querySelector('#' + filterId);
     imgFilterActiveElement.classList.add('img-filters__button--active');
-    applyFilter();
-    removePhotoList();
-    window.utils.debounce(window.picture.showPhotoList(photosArraySort), DEBOUNCE_INTERVAL);
+    window.utils.debounce(redrawPhotoList(), DEBOUNCE_INTERVAL);
   };
 
   var onInitializeData = function (photos) {

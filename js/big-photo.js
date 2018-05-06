@@ -39,9 +39,9 @@
   var showCommentsList = function (comments) {
     removeSocialComments();
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < comments.length; i++) {
-      fragment.appendChild(getUsersComments(comments[i]));
-    }
+    comments.forEach(function (coment) {
+      fragment.appendChild(getUsersComments(coment));
+    });
     removeCommentsElement.appendChild(fragment);
   };
 
@@ -63,9 +63,9 @@
 
   var getPhotoList = function (photos) {
     listPhoto = document.querySelectorAll('.picture__link');
-    for (var i = 0; i < listPhoto.length; i++) {
-      onListPhotoClick(i, photos);
-    }
+    [].forEach.call(listPhoto, function (listPhotoClick, index) {
+      onListPhotoClick(index, photos);
+    });
   };
 
   var onFullPhotoEscPress = function (evt) {

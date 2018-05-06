@@ -56,16 +56,16 @@
       xhr.addEventListener('load', function () {
         var errorText;
         switch (xhr.status) {
-          case 200:
+          case Code.SUCCSESS:
             onLoad();
             break;
-          case 400:
+          case Code.BAD_REQUEST:
             errorText = 'Неверный запрос';
             break;
-          case 401:
+          case Code.UNAUTHORIZED:
             errorText = 'Пользователь не авторизован';
             break;
-          case 404:
+          case Code.NOT_FOUND:
             errorText = 'Ничего не найдено';
             break;
           default:
