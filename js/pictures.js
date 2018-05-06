@@ -3,6 +3,8 @@
 (function () {
   var otherUserPhotoElement = document.querySelector('.pictures');
 
+  var imgFiltersElement = document.querySelector('.img-filters');
+
   var pictureTemplateElement = document.querySelector('#picture').content;
 
   var renderPhoto = function (photo) {
@@ -15,14 +17,26 @@
     return photoElement;
   };
 
+  var onLoad = function (photos) {
+    showPhotoList(photos);
+    imgFiltersElement.classList.remove('img-filters--inactive');
+    window.filters.initializeData(photos);
+  };
+
   var showPhotoList = function (photos) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photos.length; i++) {
-      fragment.appendChild(renderPhoto(photos[i]));
-    }
+    photos.forEach(function (photo) {
+      fragment.appendChild(renderPhoto(photo));
+    });
     otherUserPhotoElement.appendChild(fragment);
+
     window.bigphoto.getPhotoList(photos);
   };
 
-  window.backend.getData(showPhotoList, window.utils.createMessage);
+  window.backend.getData(onLoad, window.utils.createMessage);
+
+  window.picture = {
+    showPhotoList: showPhotoList,
+    otherUserPhotoElement: otherUserPhotoElement
+  };
 })();

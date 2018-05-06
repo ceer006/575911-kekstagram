@@ -5,10 +5,6 @@
 
   var HASHTAGS_LENGTH = 20;
 
-  var MIN_X = 0;
-
-  var MAX_X = 453;
-
   var MIN_VALUE = 25;
 
   var MAX_VALUE = 100;
@@ -64,6 +60,8 @@
   var uploadCloseElement = overlayElement.querySelector('.img-upload__cancel');
 
   var inputValue = parseInt(resizeControlValueElement.value, 10);
+
+  var MIN_X = 0;
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
@@ -187,9 +185,9 @@
       previewPhotoElement.classList.remove(imgClass);
     }
     closeImgScale();
-    for (var i = 1; i < effectRadioElement.length; i++) {
-      effectRadioElement[i].checked = false;
-    }
+    [].forEach.call(effectRadioElement, function (effectRadio) {
+      effectRadio.checked = false;
+    });
     originalPhotoElement.checked = true;
   };
 
@@ -204,10 +202,6 @@
 
   var getEffectDepth = function () {
     return (scaleLevelElement.offsetWidth / scaleLineElement.offsetWidth).toFixed(2);
-  };
-
-  var getEffectDepthProcent = function () {
-    return (scaleLevelElement.offsetWidth / scaleLineElement.offsetWidth * 100).toFixed(0);
   };
 
   var refreshFilterDepth = function () {
@@ -244,7 +238,7 @@
       imgClass = 'effects__preview--' + effectRadioElement[index].value;
       openImgScale();
       previewPhotoElement.classList.add(imgClass);
-      scalePinElement.style = 'left: ' + MAX_X + 'px;';
+      scalePinElement.style = 'left: ' + scaleLineElement.offsetWidth + 'px;';
       scaleLevelElement.style = 'width: 100%';
       imgUploadScaleValueElement.value = '100';
       refreshFilterDepth();
@@ -327,11 +321,11 @@
         x: moveEvt.clientX
       };
 
-      if ((scalePinElement.offsetLeft - shift.x) >= MIN_X && (scalePinElement.offsetLeft - shift.x) <= MAX_X) {
+      if ((scalePinElement.offsetLeft - shift.x) >= MIN_X && (scalePinElement.offsetLeft - shift.x) <= scaleLineElement.offsetWidth) {
         scalePinElement.style.left = (scalePinElement.offsetLeft - shift.x) + 'px';
         scaleLevelElement.style.width = (scaleLevelElement.offsetWidth - shift.x) + 'px';
         refreshFilterDepth();
-        imgUploadScaleValueElement.value = '' + getEffectDepthProcent();
+        imgUploadScaleValueElement.value = '' + getEffectDepth() * 100;
       }
     };
 
