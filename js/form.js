@@ -353,11 +353,10 @@
     });
   };
 
-  fileChooser.addEventListener('change', function () {
+  var onFormChange = function () {
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
-    var errorMessageElement = document.body.children[0];
-    var errorMessageValue = errorMessageElement.classList.value;
+    var errorMessageElement = document.querySelector('.error-message');
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
@@ -368,13 +367,15 @@
       });
       reader.readAsDataURL(file);
       openPopup();
-      if (errorMessageValue === 'error-message') {
+      if (errorMessageElement) {
         errorMessageElement.remove();
       }
     } else {
       window.utils.createMessage('Неверный формат загружаемого файла');
     }
-  });
+  };
+
+  fileChooser.addEventListener('change', onFormChange);
 
   formElement.addEventListener('submit', onFormSubmit);
 })();
