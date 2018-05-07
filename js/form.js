@@ -146,8 +146,7 @@
   };
 
   var getValidate = function () {
-    var hashtagsValue = inputHashtagsElement.value;
-    hashtagsValue = hashtagsValue.toLowerCase().trim();
+    var hashtagsValue = inputHashtagsElement.value.toLowerCase().trim();
     var hashtags = hashtagsValue.split(/[\s]+/);
     if (hashtagsValue === '') {
       return;
@@ -192,6 +191,7 @@
       effectRadio.checked = false;
     });
     originalPhotoElement.checked = true;
+    previewPhotoElement.src = 'img/upload-default-image.jpg';
   };
 
   var onImgResize = function (resize) {
@@ -257,16 +257,6 @@
   for (var j = 1; j < effectPreviewElements.length; j++) {
     onEffectPhotoClick(j);
   }
-
-  uploadFileElement.addEventListener('change', function () {
-    openPopup();
-  });
-
-  uploadFileElement.addEventListener('change', function (evt) {
-    if (evt.keyCode === window.utils.ENTER_KEYCODE) {
-      openPopup();
-    }
-  });
 
   uploadCloseElement.addEventListener('click', function () {
     closePopup();
@@ -366,19 +356,23 @@
   fileChooser.addEventListener('change', function () {
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
-
+    var errorMessageElement = document.body.children[0];
+    var errorMessageValue = errorMessageElement.classList.value;
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
-
     if (matches) {
       var reader = new FileReader();
-
       reader.addEventListener('load', function () {
         previewPhotoElement.src = reader.result;
       });
-
       reader.readAsDataURL(file);
+      openPopup();
+      if (errorMessageValue === 'error-message') {
+        errorMessageElement.remove();
+      }
+    } else {
+      window.utils.createMessage('Неверный формат загружаемого файла');
     }
   });
 
