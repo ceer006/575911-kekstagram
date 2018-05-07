@@ -13,6 +13,8 @@
 
   var STEP = 25;
 
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
   var validityHashTags = [];
 
   var imgClass = '';
@@ -58,6 +60,8 @@
   var previewPhotoElement = previewUploadImgElement.querySelector('img');
 
   var uploadFileElement = document.querySelector('#upload-file');
+
+  var fileChooser = document.querySelector('.img-upload__input');
 
   var uploadCloseElement = overlayElement.querySelector('.img-upload__cancel');
 
@@ -143,8 +147,7 @@
 
   var getValidate = function () {
     var hashtagsValue = inputHashtagsElement.value;
-    hashtagsValue = hashtagsValue.toLowerCase();
-    hashtagsValue = hashtagsValue.trim();
+    hashtagsValue = hashtagsValue.toLowerCase().trim();
     var hashtags = hashtagsValue.split(/[\s]+/);
     if (hashtagsValue === '') {
       return;
@@ -359,6 +362,25 @@
       overlayElement.classList.add('hidden');
     });
   };
+
+  fileChooser.addEventListener('change', function () {
+    var file = fileChooser.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        previewPhotoElement.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
+  });
 
   formElement.addEventListener('submit', onFormSubmit);
 })();

@@ -5,9 +5,7 @@
 
   var bigPictureElement = document.querySelector('.big-picture');
 
-  var bigPictureWrapElement = bigPictureElement.querySelector('.big-picture__img');
-
-  var bigPictureImgElement = bigPictureWrapElement.querySelector('img');
+  var bigPictureImgElement = bigPictureElement.querySelector('.big-picture__img img');
 
   var likesCountElement = bigPictureElement.querySelector('.likes-count');
 
