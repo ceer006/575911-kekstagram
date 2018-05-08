@@ -13,6 +13,8 @@
 
   var STEP = 25;
 
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
   var validityHashTags = [];
 
   var imgClass = '';
@@ -51,7 +53,7 @@
 
   var originalPhotoElement = formElement.querySelector('#effect-none');
 
-  var errorForm = formElement.querySelector('.img-upload__message--error');
+  var errorFormElement = formElement.querySelector('.img-upload__message--error');
 
   var imgUploadScaleValueElement = imgUploadScaleElement.querySelector('.scale__value');
 
@@ -59,7 +61,11 @@
 
   var uploadFileElement = document.querySelector('#upload-file');
 
+  var fileChooserElement = document.querySelector('.img-upload__input');
+
   var uploadCloseElement = overlayElement.querySelector('.img-upload__cancel');
+
+  var reSubmitFormElement = errorFormElement.querySelector('.error__link');
 
   var inputValue = parseInt(resizeControlValueElement.value, 10);
 
@@ -142,9 +148,7 @@
   };
 
   var getValidate = function () {
-    var hashtagsValue = inputHashtagsElement.value;
-    hashtagsValue = hashtagsValue.toLowerCase();
-    hashtagsValue = hashtagsValue.trim();
+    var hashtagsValue = inputHashtagsElement.value.toLowerCase().trim();
     var hashtags = hashtagsValue.split(/[\s]+/);
     if (hashtagsValue === '') {
       return;
@@ -189,6 +193,7 @@
       effectRadio.checked = false;
     });
     originalPhotoElement.checked = true;
+    previewPhotoElement.src = 'img/upload-default-image.jpg';
   };
 
   var onImgResize = function (resize) {
@@ -207,30 +212,24 @@
   var refreshFilterDepth = function () {
     var effectStyle;
     switch (effectValue) {
-      case 'none': {
+      case 'none':
         previewPhotoElement.removeAttribute('style');
         break;
-      }
-      case 'chrome': {
+      case 'chrome':
         effectStyle = 'filter: grayscale(' + getEffectDepth() + ');';
         break;
-      }
-      case 'sepia': {
+      case 'sepia':
         effectStyle = 'filter: sepia(' + getEffectDepth() + ');';
         break;
-      }
-      case 'marvin': {
+      case 'marvin':
         effectStyle = 'filter: invert(' + getEffectDepth() * 100 + '%);';
         break;
-      }
-      case 'phobos': {
+      case 'phobos':
         effectStyle = 'filter: blur(' + getEffectDepth() * 3 + 'px);';
         break;
-      }
-      case 'heat': {
+      case 'heat':
         effectStyle = 'filter: brightness(' + getEffectDepth() * 3 + ');';
         break;
-      }
     }
     previewPhotoElement.style = effectStyle;
   };
@@ -254,16 +253,6 @@
   for (var j = 1; j < effectPreviewElements.length; j++) {
     onEffectPhotoClick(j);
   }
-
-  uploadFileElement.addEventListener('change', function () {
-    openPopup();
-  });
-
-  uploadFileElement.addEventListener('change', function (evt) {
-    if (evt.keyCode === window.utils.ENTER_KEYCODE) {
-      openPopup();
-    }
-  });
 
   uploadCloseElement.addEventListener('click', function () {
     closePopup();
@@ -355,10 +344,38 @@
     evt.preventDefault();
     window.backend.postData(new FormData(formElement), onFormUploadSuccess, function (errorMessage) {
       window.utils.createMessage(errorMessage);
-      errorForm.classList.remove('hidden');
+      window.utils.deleteMessage();
+      errorFormElement.classList.remove('hidden');
       overlayElement.classList.add('hidden');
     });
   };
 
+  var onFormChange = function () {
+    var file = fileChooserElement.files[0];
+    var fileName = file.name.toLowerCase();
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+    if (matches) {
+      var reader = new FileReader();
+      reader.addEventListener('load', function () {
+        previewPhotoElement.src = reader.result;
+      });
+      reader.readAsDataURL(file);
+      openPopup();
+    } else {
+      window.utils.createMessage('Неверный формат загружаемого файла');
+      window.utils.deleteMessage();
+    }
+  };
+
+  fileChooserElement.addEventListener('change', onFormChange);
+
   formElement.addEventListener('submit', onFormSubmit);
+
+  reSubmitFormElement.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    errorFormElement.classList.add('hidden');
+    overlayElement.classList.remove('hidden');
+  });
 })();

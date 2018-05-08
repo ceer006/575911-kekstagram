@@ -33,7 +33,10 @@
     window.bigphoto.getPhotoList(photos);
   };
 
-  window.backend.getData(onLoad, window.utils.createMessage);
+  window.backend.getData(onLoad, function (errorMessage) {
+    window.utils.createMessage(errorMessage);
+    window.utils.deleteMessage();
+  });
 
   window.picture = {
     showPhotoList: showPhotoList,

@@ -7,7 +7,7 @@
 
   var dataPhotos;
 
-  var dataSortingPhotos = [];
+  var dataSortedPhotos = [];
 
   var imgFiltersElement = document.querySelector('.img-filters');
 
@@ -42,29 +42,25 @@
 
   var applyFilter = function () {
     switch (filterId) {
-      case 'filter-recommended': {
-        dataSortingPhotos = dataPhotos;
+      case 'filter-recommended':
+        dataSortedPhotos = dataPhotos;
         break;
-      }
-      case 'filter-popular': {
-        dataSortingPhotos = sortByLikes(dataPhotos);
+      case 'filter-popular':
+        dataSortedPhotos = sortByLikes(dataPhotos);
         break;
-      }
-      case 'filter-discussed': {
-        dataSortingPhotos = sortByComments(dataPhotos);
+      case 'filter-discussed':
+        dataSortedPhotos = sortByComments(dataPhotos);
         break;
-      }
-      case 'filter-random': {
-        dataSortingPhotos = sortByRandom(dataPhotos);
+      case 'filter-random':
+        dataSortedPhotos = sortByRandom(dataPhotos);
         break;
-      }
     }
   };
 
   var redrawPhotoList = function () {
     applyFilter();
     removePhotoList();
-    window.picture.showPhotoList(dataSortingPhotos);
+    window.picture.showPhotoList(dataSortedPhotos);
   };
 
   var onFilterPhotoClick = function (evt) {
