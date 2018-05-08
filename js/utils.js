@@ -6,6 +6,7 @@
   var errorMessageElement;
 
   window.utils = {
+    DELETE_MESSAGE_TIMEOUT: 3000,
     ESC_KEYCODE: 27,
     ENTER_KEYCODE: 13,
     getRandom: function (min, max) {

@@ -344,6 +344,7 @@
     evt.preventDefault();
     window.backend.postData(new FormData(formElement), onFormUploadSuccess, function (errorMessage) {
       window.utils.createMessage(errorMessage);
+      setTimeout(window.utils.deleteMessage, window.utils.DELETE_MESSAGE_TIMEOUT);
       errorFormElement.classList.remove('hidden');
       overlayElement.classList.add('hidden');
     });
@@ -355,7 +356,6 @@
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
-    window.utils.deleteMessage();
     if (matches) {
       var reader = new FileReader();
       reader.addEventListener('load', function () {
@@ -365,6 +365,7 @@
       openPopup();
     } else {
       window.utils.createMessage('Неверный формат загружаемого файла');
+      setTimeout(window.utils.deleteMessage, window.utils.DELETE_MESSAGE_TIMEOUT);
     }
   };
 
@@ -374,7 +375,6 @@
 
   reSubmitFormElement.addEventListener('click', function (evt) {
     evt.preventDefault();
-    window.utils.deleteMessage();
     errorFormElement.classList.add('hidden');
     overlayElement.classList.remove('hidden');
   });
