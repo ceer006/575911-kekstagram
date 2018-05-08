@@ -3,6 +3,8 @@
 (function () {
   var lastTimeout;
 
+  var errorMessageElement;
+
   window.utils = {
     ESC_KEYCODE: 27,
     ENTER_KEYCODE: 13,
@@ -24,9 +26,12 @@
       node.style.fontSize = '24px';
       node.textContent = errorMessage;
       document.body.insertAdjacentElement('afterbegin', node);
+      errorMessageElement = document.querySelector('.error-message');
     },
-    deleteMessage: function (element) {
-      element.remove();
+    deleteMessage: function () {
+      if (errorMessageElement) {
+        errorMessageElement.remove();
+      }
     },
     debounce: function (fun, interval) {
       if (lastTimeout) {

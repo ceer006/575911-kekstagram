@@ -61,7 +61,7 @@
 
   var uploadFileElement = document.querySelector('#upload-file');
 
-  var fileChooser = document.querySelector('.img-upload__input');
+  var fileChooserElement = document.querySelector('.img-upload__input');
 
   var uploadCloseElement = overlayElement.querySelector('.img-upload__cancel');
 
@@ -210,30 +210,24 @@
   var refreshFilterDepth = function () {
     var effectStyle;
     switch (effectValue) {
-      case 'none': {
+      case 'none':
         previewPhotoElement.removeAttribute('style');
         break;
-      }
-      case 'chrome': {
+      case 'chrome':
         effectStyle = 'filter: grayscale(' + getEffectDepth() + ');';
         break;
-      }
-      case 'sepia': {
+      case 'sepia':
         effectStyle = 'filter: sepia(' + getEffectDepth() + ');';
         break;
-      }
-      case 'marvin': {
+      case 'marvin':
         effectStyle = 'filter: invert(' + getEffectDepth() * 100 + '%);';
         break;
-      }
-      case 'phobos': {
+      case 'phobos':
         effectStyle = 'filter: blur(' + getEffectDepth() * 3 + 'px);';
         break;
-      }
-      case 'heat': {
+      case 'heat':
         effectStyle = 'filter: brightness(' + getEffectDepth() * 3 + ');';
         break;
-      }
     }
     previewPhotoElement.style = effectStyle;
   };
@@ -354,9 +348,8 @@
   };
 
   var onFormChange = function () {
-    var file = fileChooser.files[0];
+    var file = fileChooserElement.files[0];
     var fileName = file.name.toLowerCase();
-    var errorMessageElement = document.querySelector('.error-message');
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
@@ -367,17 +360,13 @@
       });
       reader.readAsDataURL(file);
       openPopup();
-      if (errorMessageElement) {
-        window.utils.deleteMessage(errorMessageElement);
-      }
-    } else if (errorMessageElement) {
-      return;
+      window.utils.deleteMessage();
     } else {
       window.utils.createMessage('Неверный формат загружаемого файла');
     }
   };
 
-  fileChooser.addEventListener('change', onFormChange);
+  fileChooserElement.addEventListener('change', onFormChange);
 
   formElement.addEventListener('submit', onFormSubmit);
 })();

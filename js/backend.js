@@ -21,25 +21,20 @@
       xhr.addEventListener('load', function () {
         var errorText;
         switch (xhr.status) {
-          case Code.SUCCESS: {
+          case Code.SUCCESS:
             onSuccess(xhr.response);
             break;
-          }
-          case Code.BAD_REQUEST: {
+          case Code.BAD_REQUEST:
             errorText = 'Неверный запрос';
             break;
-          }
-          case Code.UNAUTHORIZED: {
+          case Code.UNAUTHORIZED:
             errorText = 'Пользователь не авторизован';
             break;
-          }
-          case Code.NOT_FOUND: {
+          case Code.NOT_FOUND:
             errorText = 'Ничего не найдено';
             break;
-          }
-          default: {
+          default:
             onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
-          }
         }
         if (errorText) {
           onError(errorText);
@@ -64,25 +59,20 @@
       xhr.addEventListener('load', function () {
         var errorText;
         switch (xhr.status) {
-          case Code.SUCCESS: {
+          case Code.SUCCESS:
             onLoad();
             break;
-          }
-          case Code.BAD_REQUEST: {
+          case Code.BAD_REQUEST:
             errorText = 'Неверный запрос';
             break;
-          }
-          case Code.UNAUTHORIZED: {
+          case Code.UNAUTHORIZED:
             errorText = 'Пользователь не авторизован';
             break;
-          }
-          case Code.NOT_FOUND: {
+          case Code.NOT_FOUND:
             errorText = 'Ничего не найдено';
             break;
-          }
-          default: {
+          default:
             errorText = 'Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText;
-          }
         }
         if (errorText) {
           onError(errorText);

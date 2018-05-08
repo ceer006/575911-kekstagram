@@ -42,22 +42,18 @@
 
   var applyFilter = function () {
     switch (filterId) {
-      case 'filter-recommended': {
+      case 'filter-recommended':
         dataSortedPhotos = dataPhotos;
         break;
-      }
-      case 'filter-popular': {
+      case 'filter-popular':
         dataSortedPhotos = sortByLikes(dataPhotos);
         break;
-      }
-      case 'filter-discussed': {
+      case 'filter-discussed':
         dataSortedPhotos = sortByComments(dataPhotos);
         break;
-      }
-      case 'filter-random': {
+      case 'filter-random':
         dataSortedPhotos = sortByRandom(dataPhotos);
         break;
-      }
     }
   };
 
