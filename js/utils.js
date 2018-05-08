@@ -14,13 +14,19 @@
       node.classList.add('error-message');
       node.style = 'z-index: 100; margin: 0 auto; text-align: center;';
       node.style.position = 'absolute';
-      node.style.background = 'red';
+      node.style.color = 'red';
+      node.style.background = '#232321';
       node.style.left = 0;
       node.style.right = 0;
-      node.style.top = '60px';
+      node.style.height = '45px';
+      node.style.padding = '10px';
+      node.style.top = '15px';
       node.style.fontSize = '24px';
       node.textContent = errorMessage;
       document.body.insertAdjacentElement('afterbegin', node);
+    },
+    deleteMessage: function (element) {
+      element.remove();
     },
     debounce: function (fun, interval) {
       if (lastTimeout) {

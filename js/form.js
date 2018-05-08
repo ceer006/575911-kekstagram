@@ -368,8 +368,10 @@
       reader.readAsDataURL(file);
       openPopup();
       if (errorMessageElement) {
-        errorMessageElement.remove();
+        window.utils.deleteMessage(errorMessageElement);
       }
+    } else if (errorMessageElement) {
+      return;
     } else {
       window.utils.createMessage('Неверный формат загружаемого файла');
     }
