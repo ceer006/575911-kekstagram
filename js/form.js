@@ -344,7 +344,7 @@
     evt.preventDefault();
     window.backend.postData(new FormData(formElement), onFormUploadSuccess, function (errorMessage) {
       window.utils.createMessage(errorMessage);
-      setTimeout(window.utils.deleteMessage, window.utils.DELETE_MESSAGE_TIMEOUT);
+      window.utils.deleteMessage();
       errorFormElement.classList.remove('hidden');
       overlayElement.classList.add('hidden');
     });
@@ -365,7 +365,7 @@
       openPopup();
     } else {
       window.utils.createMessage('Неверный формат загружаемого файла');
-      setTimeout(window.utils.deleteMessage, window.utils.DELETE_MESSAGE_TIMEOUT);
+      window.utils.deleteMessage();
     }
   };
 

@@ -5,8 +5,13 @@
 
   var errorMessageElement;
 
+  var DELETE_MESSAGE_TIMEOUT = 3000;
+
+  var deleteBlockMessage = function () {
+    errorMessageElement.remove();
+  };
+
   window.utils = {
-    DELETE_MESSAGE_TIMEOUT: 3000,
     ESC_KEYCODE: 27,
     ENTER_KEYCODE: 13,
     getRandom: function (min, max) {
@@ -31,7 +36,7 @@
     },
     deleteMessage: function () {
       if (errorMessageElement) {
-        errorMessageElement.remove();
+        setTimeout(deleteBlockMessage, DELETE_MESSAGE_TIMEOUT);
       }
     },
     debounce: function (fun, interval) {
