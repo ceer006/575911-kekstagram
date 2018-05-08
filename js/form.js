@@ -53,7 +53,7 @@
 
   var originalPhotoElement = formElement.querySelector('#effect-none');
 
-  var errorForm = formElement.querySelector('.img-upload__message--error');
+  var errorFormElement = formElement.querySelector('.img-upload__message--error');
 
   var imgUploadScaleValueElement = imgUploadScaleElement.querySelector('.scale__value');
 
@@ -64,6 +64,8 @@
   var fileChooserElement = document.querySelector('.img-upload__input');
 
   var uploadCloseElement = overlayElement.querySelector('.img-upload__cancel');
+
+  var reSubmitFormElement = errorFormElement.querySelector('.error__link');
 
   var inputValue = parseInt(resizeControlValueElement.value, 10);
 
@@ -342,7 +344,7 @@
     evt.preventDefault();
     window.backend.postData(new FormData(formElement), onFormUploadSuccess, function (errorMessage) {
       window.utils.createMessage(errorMessage);
-      errorForm.classList.remove('hidden');
+      errorFormElement.classList.remove('hidden');
       overlayElement.classList.add('hidden');
     });
   };
@@ -353,6 +355,7 @@
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
+    window.utils.deleteMessage();
     if (matches) {
       var reader = new FileReader();
       reader.addEventListener('load', function () {
@@ -360,7 +363,6 @@
       });
       reader.readAsDataURL(file);
       openPopup();
-      window.utils.deleteMessage();
     } else {
       window.utils.createMessage('Неверный формат загружаемого файла');
     }
@@ -369,4 +371,11 @@
   fileChooserElement.addEventListener('change', onFormChange);
 
   formElement.addEventListener('submit', onFormSubmit);
+
+  reSubmitFormElement.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.utils.deleteMessage();
+    errorFormElement.classList.add('hidden');
+    overlayElement.classList.remove('hidden');
+  });
 })();
